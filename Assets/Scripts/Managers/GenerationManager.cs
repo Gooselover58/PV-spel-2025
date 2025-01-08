@@ -7,6 +7,7 @@ public class GenerationManager : MonoBehaviour
 {
     private static GenerationManager instance;
     private Dictionary<string, Tile> tiles = new Dictionary<string, Tile>();
+    [SerializeField] Tilemap testTilemap;
     private GameObject worldTilemap;
     private Tilemap groundMap;
     private Tilemap railMap;
@@ -39,10 +40,6 @@ public class GenerationManager : MonoBehaviour
         wallMap = worldTilemap.transform.GetChild(2).GetComponent<Tilemap>();
         tiles.Add("Rail", Resources.Load<Tile>("Sprites/Tiles/TestRail"));
         tiles.Add("MountainG", Resources.Load<Tile>("Sprites/Tiles/TestGround"));
-        foreach (Tile tile in Resources.LoadAll<Tile>("Sprites/Tiles/Cave"))
-        {
-            tiles.Add(tile.name, tile);
-        }
     }
 
     private void LoadMap(int length)
@@ -73,9 +70,26 @@ public class GenerationManager : MonoBehaviour
     }
 }
 
+public struct TileAndPos
+{
+    public TileBase tile;
+    public Vector3Int pos;
+}
+
 public class TileConstruct
 {
+    List<TileAndPos> tiles;
 
+    public TileConstruct(Tilemap tilemap)
+    {
+        TileBase[] tileBases = tilemap.GetTilesBlock(tilemap.cellBounds);
+        foreach (TileBase tile in tileBases)
+        {
+            TileAndPos tileAndPos = new TileAndPos();
+            tileAndPos.tile = tile;
+            tiles.Add(tileAndPos);
+        }
+    }
 }
 
 public class Walker
