@@ -12,6 +12,7 @@ public class GenerationManager : MonoBehaviour
     private Tilemap groundMap;
     private Tilemap railMap;
     private Tilemap wallMap;
+    public Tile currentGroundTile;
 
     public static GenerationManager Instance
     {
@@ -40,6 +41,7 @@ public class GenerationManager : MonoBehaviour
         wallMap = worldTilemap.transform.GetChild(2).GetComponent<Tilemap>();
         tiles.Add("Rail", Resources.Load<Tile>("Sprites/Tiles/TestRail"));
         tiles.Add("MountainG", Resources.Load<Tile>("Sprites/Tiles/TestGround"));
+        currentGroundTile = tiles["MountainG"];
     }
 
     private void LoadMap(int length)
@@ -60,13 +62,13 @@ public class GenerationManager : MonoBehaviour
         for (int i = -1; i < 2; i++)
         {
             Vector3Int groundPos = pos + new Vector3Int(i, 0, 0);
-            PlaceGround(groundPos);
+            PlaceTile(tiles["MountainG"], groundPos);
         }
     }
 
-    public void PlaceGround(Vector3Int pos)
+    public void PlaceTile(TileBase tileType, Vector3Int pos)
     {
-        groundMap.SetTile(pos, tiles["MountainG"]);
+        groundMap.SetTile(pos, tileType);
     }
 }
 
@@ -82,12 +84,31 @@ public class TileConstruct
 
     public TileConstruct(Tilemap tilemap)
     {
-        TileBase[] tileBases = tilemap.GetTilesBlock(tilemap.cellBounds);
-        foreach (TileBase tile in tileBases)
+        Vector3Int boundPos = tilemap.cellBounds.position;
+        Vector3Int boundSize = tilemap.cellBounds.size;
+        for (int i = boundPos.x; i < boundSize.x; i++)
         {
-            TileAndPos tileAndPos = new TileAndPos();
-            tileAndPos.tile = tile;
-            tiles.Add(tileAndPos);
+            for (int j = boundPos.y; j < boundSize.y; j++)
+            {
+                Vector3Int tilePos = new Vector3Int(i, j, 0);
+                TileBase tile = tilemap.GetTile(tilePos);
+                if (tile != null)
+                {
+                    TileAndPos tileAndPos = new TileAndPos();
+                    tileAndPos.tile = tile;
+                    tileAndPos.pos = tilePos;
+                    tiles.Add(tileAndPos);
+                }
+            }
+        }
+    }
+
+    public void PlaceConstruct(Vector3Int pos)
+    {
+        foreach (TileAndPos tile in tiles)
+        {
+            Vector3Int tilePos = pos + tile.pos;
+            GenerationManager.Instance.PlaceTile(tile.tile, tilePos);
         }
     }
 }
@@ -133,7 +154,7 @@ public class Walker
         for (int i = -1; i < 2; i++)
         {
             Vector3Int groundPos = pos + (groundDir * i);
-            GenerationManager.Instance.PlaceGround(groundPos);
+            GenerationManager.Instance.PlaceTile(GenerationManager.Instance.currentGroundTile, groundPos);
         }
     }
 
