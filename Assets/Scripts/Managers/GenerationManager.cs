@@ -90,7 +90,7 @@ public class Walker
         for (int i = 0; i < length; i++)
         {
             pos += dir;
-            GenerationManager.Instance.PlaceGround(pos);
+            PlaceGround(pos);
             int shouldTurn = Random.Range(0, turnChance);
             if (shouldTurn == 0)
             {
@@ -104,15 +104,31 @@ public class Walker
         }
     }
 
+    protected void PlaceGround(Vector3Int pos)
+    {
+        Vector3Int groundDir = TurnVector(dir);
+        for (int i = -1; i < 2; i++)
+        {
+            Vector3Int groundPos = pos + (groundDir * i);
+            GenerationManager.Instance.PlaceGround(groundPos);
+        }
+    }
+
     protected Vector3Int ChangeDirection()
     {
-        Vector3Int newDir;
+        Vector3Int newDir = TurnVector(dir);
         int shouldReverseDir = Random.Range(0, 2);
-        int x = (shouldReverseDir == 0) ? dir.y : -dir.y;
-        int y = (shouldReverseDir == 0) ? dir.x : -dir.x;
+        int x = (shouldReverseDir == 0) ? newDir.x : -newDir.x;
+        int y = (shouldReverseDir == 0) ? newDir.y : -newDir.y;
         newDir = new Vector3Int(x, y, 0);
         return newDir;
 
+    }
+
+    protected Vector3Int TurnVector(Vector3Int vec)
+    {
+        Vector3Int turnedVec = new Vector3Int(vec.y, vec.x, 0);
+        return turnedVec;
     }
 }
 
