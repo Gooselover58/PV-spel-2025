@@ -39,6 +39,10 @@ public class GenerationManager : MonoBehaviour
         wallMap = worldTilemap.transform.GetChild(2).GetComponent<Tilemap>();
         tiles.Add("Rail", Resources.Load<Tile>("Sprites/Tiles/TestRail"));
         tiles.Add("MountainG", Resources.Load<Tile>("Sprites/Tiles/TestGround"));
+        foreach (Tile tile in Resources.LoadAll<Tile>("Sprites/Tiles/Cave"))
+        {
+            tiles.Add(tile.name, tile);
+        }
     }
 
     private void LoadMap(int length)
@@ -67,6 +71,11 @@ public class GenerationManager : MonoBehaviour
     {
         groundMap.SetTile(pos, tiles["MountainG"]);
     }
+}
+
+public class TileConstruct
+{
+
 }
 
 public class Walker
