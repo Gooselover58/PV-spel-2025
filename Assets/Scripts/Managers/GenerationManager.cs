@@ -43,6 +43,7 @@ public class GenerationManager : MonoBehaviour
         tiles.Add("MountainG", Resources.Load<Tile>("Sprites/Tiles/TestGround"));
         tileConstructs.Add("WallMiddle", new TileConstruct(Resources.Load<GameObject>("Prefabs/WallMiddle").GetComponent<Tilemap>()));
         tileConstructs.Add("WallEnd", new TileConstruct(Resources.Load<GameObject>("Prefabs/WallEnd").GetComponent<Tilemap>()));
+        tileConstructs.Add("WallBMiddle", new TileConstruct(Resources.Load<GameObject>("Prefabs/WallBMiddle").GetComponent<Tilemap>()));
         tilemaps.Add("Ground", groundMap);
         tilemaps.Add("Rails", railMap);
         tilemaps.Add("Walls", wallMap);
@@ -77,18 +78,33 @@ public class GenerationManager : MonoBehaviour
             for (int j = mapSize.y; j > -(mapSize.y / 2); j--)
             {
                 Vector3Int tilePos = new Vector3Int(i, j, 0);
-                if (groundMap.GetTile(tilePos) == null)
+                if (groundMap.GetTile(tilePos) == null && CheckTileNeighbors(tilePos))
                 {
-
+                    PlaceTile(currentGroundTile, tilePos, "Ground");
                 }
             }
         }
     }
 
+    private bool CheckTileNeighbors(Vector3Int tilePos)
+    {
+        Vector3Int neighborPos = Vector3Int.left;
+        for (int i = 0; i < 4; i++)
+        {
+            if (groundMap.GetTile(tilePos + neighborPos) == null)
+            {
+                return false;
+            }
+            neighborPos = TurnVector(neighborPos);
+            neighborPos *= (i == 2) ? -1 : 1;
+        }
+        return true;
+    }
+
     private void PlaceWalls()
     {
         Vector3Int mapSize = groundMap.cellBounds.size;
-        for (int i = -(mapSize.x / 2); i < (mapSize.x / 2); i++)
+        for (int i = -(mapSize.x / 2) - 2; i < (mapSize.x / 2) + 2; i++)
         {
             for (int j = mapSize.y; j > -(mapSize.y / 2); j--)
             {
@@ -96,6 +112,19 @@ public class GenerationManager : MonoBehaviour
                 if (groundMap.GetTile(tilePos) != null && groundMap.GetTile(tilePos + Vector3Int.up) == null)
                 {
                     tileConstructs["WallMiddle"].PlaceConstruct(tilePos);
+                    break;
+                }
+            }
+        }
+        for (int i = -(mapSize.x / 2) - 2; i < (mapSize.x / 2) + 2; i++)
+        {
+            for (int j = -mapSize.y; j < (mapSize.y / 2); j++)
+            {
+                Vector3Int tilePos = new Vector3Int(i, j, 0);
+                if (groundMap.GetTile(tilePos) != null && groundMap.GetTile(tilePos + Vector3Int.down) == null)
+                {
+                    tileConstructs["WallBMiddle"].PlaceConstruct(tilePos);
+                    break;
                 }
             }
         }
@@ -117,6 +146,12 @@ public class GenerationManager : MonoBehaviour
         {
             tilemaps[mapName].SetTile(pos, tileType);
         }
+    }
+
+    public Vector3Int TurnVector(Vector3Int vec)
+    {
+        Vector3Int turnedVec = new Vector3Int(vec.y, vec.x, 0);
+        return turnedVec;
     }
 }
 
@@ -199,7 +234,7 @@ public class Walker
 
     protected void PlaceGround(Vector3Int pos)
     {
-        Vector3Int groundDir = TurnVector(dir);
+        Vector3Int groundDir = GenerationManager.Instance.TurnVector(dir);
         for (int i = -1; i < 2; i++)
         {
             Vector3Int groundPos = pos + (groundDir * i);
@@ -209,19 +244,13 @@ public class Walker
 
     protected Vector3Int ChangeDirection()
     {
-        Vector3Int newDir = TurnVector(dir);
+        Vector3Int newDir = GenerationManager.Instance.TurnVector(dir);
         int shouldReverseDir = Random.Range(0, 2);
         int x = (shouldReverseDir == 0) ? newDir.x : -newDir.x;
         int y = (shouldReverseDir == 0) ? newDir.y : -newDir.y;
         newDir = new Vector3Int(x, y, 0);
         return newDir;
 
-    }
-
-    protected Vector3Int TurnVector(Vector3Int vec)
-    {
-        Vector3Int turnedVec = new Vector3Int(vec.y, vec.x, 0);
-        return turnedVec;
     }
 }
 

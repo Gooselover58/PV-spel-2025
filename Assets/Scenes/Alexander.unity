@@ -152,7 +152,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4401b158ec4ec5745b7df2f7770c70c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  testTilemap: {fileID: 2495972606412290468, guid: eee5ccb115aedb347a889b6a5b98dfba, type: 3}
   currentGroundTile: {fileID: 0}
 --- !u!4 &214076578
 Transform:
