@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using UnityEngine.UIElements;
 
 public class GenerationManager : MonoBehaviour
 {
@@ -10,6 +9,7 @@ public class GenerationManager : MonoBehaviour
     private Dictionary<string, Tile> tiles = new Dictionary<string, Tile>();
     private Dictionary<string, TileConstruct> tileConstructs = new Dictionary<string, TileConstruct>();
     [SerializeField] Tilemap testTilemap;
+    private Dictionary<string, Tilemap> tilemaps = new Dictionary<string, Tilemap>();
     private GameObject worldTilemap;
     private Tilemap groundMap;
     private Tilemap railMap;
@@ -43,6 +43,9 @@ public class GenerationManager : MonoBehaviour
         tiles.Add("Rail", Resources.Load<Tile>("Sprites/Tiles/TestRail"));
         tiles.Add("MountainG", Resources.Load<Tile>("Sprites/Tiles/TestGround"));
         tileConstructs.Add("WallMiddle", new TileConstruct(testTilemap));
+        tilemaps.Add("Ground", groundMap);
+        tilemaps.Add("Rails", railMap);
+        tilemaps.Add("Walls", wallMap);
         currentGroundTile = tiles["MountainG"];
     }
 
@@ -64,7 +67,6 @@ public class GenerationManager : MonoBehaviour
             PlaceRail(railPos);
             railPos += Vector3Int.up;
         }
-        tileConstructs["WallMiddle"].PlaceConstruct(railPos);
     }
 
     private void FillRemains()
@@ -74,7 +76,18 @@ public class GenerationManager : MonoBehaviour
 
     private void PlaceWalls()
     {
-
+        Vector3Int mapSize = groundMap.cellBounds.size;
+        for (int i = -(mapSize.x / 2); i < (mapSize.x / 2); i++)
+        {
+            for (int j = mapSize.y; j > -(mapSize.y / 2); j--)
+            {
+                Vector3Int tilePos = new Vector3Int(i, j, 0);
+                if (groundMap.GetTile(tilePos) != null && groundMap.GetTile(tilePos + Vector3Int.up) == null)
+                {
+                    tileConstructs["WallMiddle"].PlaceConstruct(tilePos);
+                }
+            }
+        }
     }
 
     private void PlaceRail(Vector3Int pos)
@@ -83,13 +96,16 @@ public class GenerationManager : MonoBehaviour
         for (int i = -1; i < 2; i++)
         {
             Vector3Int groundPos = pos + new Vector3Int(i, 0, 0);
-            PlaceTile(tiles["MountainG"], groundPos);
+            PlaceTile(tiles["MountainG"], groundPos, "Ground");
         }
     }
 
-    public void PlaceTile(TileBase tileType, Vector3Int pos)
+    public void PlaceTile(TileBase tileType, Vector3Int pos, string mapName)
     {
-        groundMap.SetTile(pos, tileType);
+        if (tilemaps.ContainsKey(mapName))
+        {
+            tilemaps[mapName].SetTile(pos, tileType);
+        }
     }
 }
 
@@ -130,7 +146,7 @@ public class TileConstruct
         foreach (TileAndPos tile in tiles)
         {
             Vector3Int tilePos = pos + tile.pos;
-            GenerationManager.Instance.PlaceTile(tile.tile, tilePos);
+            GenerationManager.Instance.PlaceTile(tile.tile, tilePos, "Walls");
         }
     }
 }
@@ -176,7 +192,7 @@ public class Walker
         for (int i = -1; i < 2; i++)
         {
             Vector3Int groundPos = pos + (groundDir * i);
-            GenerationManager.Instance.PlaceTile(GenerationManager.Instance.currentGroundTile, groundPos);
+            GenerationManager.Instance.PlaceTile(GenerationManager.Instance.currentGroundTile, groundPos, "Ground");
         }
     }
 
