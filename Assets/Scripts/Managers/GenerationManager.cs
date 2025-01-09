@@ -8,7 +8,6 @@ public class GenerationManager : MonoBehaviour
     private static GenerationManager instance;
     private Dictionary<string, Tile> tiles = new Dictionary<string, Tile>();
     private Dictionary<string, TileConstruct> tileConstructs = new Dictionary<string, TileConstruct>();
-    [SerializeField] Tilemap testTilemap;
     private Dictionary<string, Tilemap> tilemaps = new Dictionary<string, Tilemap>();
     private GameObject worldTilemap;
     private Tilemap groundMap;
@@ -42,7 +41,8 @@ public class GenerationManager : MonoBehaviour
         wallMap = worldTilemap.transform.GetChild(2).GetComponent<Tilemap>();
         tiles.Add("Rail", Resources.Load<Tile>("Sprites/Tiles/TestRail"));
         tiles.Add("MountainG", Resources.Load<Tile>("Sprites/Tiles/TestGround"));
-        tileConstructs.Add("WallMiddle", new TileConstruct(testTilemap));
+        tileConstructs.Add("WallMiddle", new TileConstruct(Resources.Load<GameObject>("Prefabs/WallMiddle").GetComponent<Tilemap>()));
+        tileConstructs.Add("WallEnd", new TileConstruct(Resources.Load<GameObject>("Prefabs/WallEnd").GetComponent<Tilemap>()));
         tilemaps.Add("Ground", groundMap);
         tilemaps.Add("Rails", railMap);
         tilemaps.Add("Walls", wallMap);
@@ -71,7 +71,18 @@ public class GenerationManager : MonoBehaviour
 
     private void FillRemains()
     {
+        Vector3Int mapSize = groundMap.cellBounds.size;
+        for (int i = -(mapSize.x / 2); i < (mapSize.x / 2); i++)
+        {
+            for (int j = mapSize.y; j > -(mapSize.y / 2); j--)
+            {
+                Vector3Int tilePos = new Vector3Int(i, j, 0);
+                if (groundMap.GetTile(tilePos) == null)
+                {
 
+                }
+            }
+        }
     }
 
     private void PlaceWalls()
