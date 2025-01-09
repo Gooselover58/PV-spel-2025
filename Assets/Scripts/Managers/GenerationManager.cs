@@ -6,6 +6,8 @@ using UnityEngine.Tilemaps;
 public class GenerationManager : MonoBehaviour
 {
     private static GenerationManager instance;
+    public static int maxY;
+    public static int minY;
     private Dictionary<string, Tile> tiles = new Dictionary<string, Tile>();
     private Dictionary<string, TileConstruct> tileConstructs = new Dictionary<string, TileConstruct>();
     private Dictionary<string, Tilemap> tilemaps = new Dictionary<string, Tilemap>();
@@ -52,19 +54,34 @@ public class GenerationManager : MonoBehaviour
 
     private void LoadMap()
     {
-        int rand = Random.Range(15, 30);
+        int rand = Random.Range(40, 70);
+        SetPlayerStart();
         SetRailWay(rand);
         FillRemains();
         PlaceWalls();
     }
 
+    private void SetPlayerStart()
+    {
+        for (int i = -2; i < 3; i++)
+        {
+            for (int j = -2; j < 3; j++)
+            {
+                Vector3Int tilePos = new Vector3Int(i, j, 0);
+                PlaceTile(currentGroundTile, tilePos, "Ground");
+            }
+        }
+    }
+
     private void SetRailWay(int length)
     {
-        Vector3Int railPos = Vector3Int.zero;
-        for (int i = 0; i < length; i++)
+        minY = -2;
+        maxY = length;
+        Vector3Int railPos = new Vector3Int(0, minY, 0);
+        for (int i = -2; i < length; i++)
         {
             Vector3Int walkerDir = (Random.Range(0, 2) == 0) ? Vector3Int.right : Vector3Int.left;
-            new Walker(railPos, walkerDir, Random.Range(10, 25));
+            new Walker(railPos, walkerDir, Random.Range(10, 50));
             PlaceRail(railPos);
             railPos += Vector3Int.up;
         }
@@ -202,6 +219,7 @@ public class Walker
     protected Vector3Int start;
     protected Vector3Int dir;
     protected int length;
+    protected int turnChance;
 
     public Walker(Vector3Int _start, Vector3Int _dir, int _length)
     {
@@ -214,22 +232,37 @@ public class Walker
     protected void Walk()
     {
         Vector3Int pos = start;
-        int turnChance = 7;
+        turnChance = 5;
         for (int i = 0; i < length; i++)
         {
+            if (!CheckYPos(pos + dir))
+            {
+                Turn();
+            }
             pos += dir;
             PlaceGround(pos);
             int shouldTurn = Random.Range(0, turnChance);
             if (shouldTurn == 0)
             {
-                turnChance = 10;
-                dir = ChangeDirection();
+                Turn();
             }
             else
             {
                 turnChance--;
             }
         }
+    }
+
+    protected void Turn()
+    {
+        turnChance = 10;
+        dir = ChangeDirection();
+    }
+
+    protected bool CheckYPos(Vector3Int curPos)
+    {
+        bool isYWithinBounds = (curPos.y >= GenerationManager.minY && curPos.y <= GenerationManager.maxY) ? true : false;
+        return isYWithinBounds;
     }
 
     protected void PlaceGround(Vector3Int pos)
