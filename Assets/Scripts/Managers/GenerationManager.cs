@@ -2,17 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.UIElements;
 
 public class GenerationManager : MonoBehaviour
 {
     private static GenerationManager instance;
     private Dictionary<string, Tile> tiles = new Dictionary<string, Tile>();
+    private Dictionary<string, TileConstruct> tileConstructs = new Dictionary<string, TileConstruct>();
     [SerializeField] Tilemap testTilemap;
     private GameObject worldTilemap;
     private Tilemap groundMap;
     private Tilemap railMap;
     private Tilemap wallMap;
-    public Tile currentGroundTile;
+    [HideInInspector] public Tile currentGroundTile;
 
     public static GenerationManager Instance
     {
@@ -29,8 +31,7 @@ public class GenerationManager : MonoBehaviour
     private void Awake()
     {
         LoadResources();
-        int rand = Random.Range(15, 30);
-        LoadMap(rand);
+        LoadMap();
     }
 
     private void LoadResources()
@@ -41,12 +42,21 @@ public class GenerationManager : MonoBehaviour
         wallMap = worldTilemap.transform.GetChild(2).GetComponent<Tilemap>();
         tiles.Add("Rail", Resources.Load<Tile>("Sprites/Tiles/TestRail"));
         tiles.Add("MountainG", Resources.Load<Tile>("Sprites/Tiles/TestGround"));
+        tileConstructs.Add("WallMiddle", new TileConstruct(testTilemap));
         currentGroundTile = tiles["MountainG"];
     }
 
-    private void LoadMap(int length)
+    private void LoadMap()
     {
-        Vector3Int railPos = Vector3Int.zero; 
+        int rand = Random.Range(15, 30);
+        SetRailWay(rand);
+        FillRemains();
+        PlaceWalls();
+    }
+
+    private void SetRailWay(int length)
+    {
+        Vector3Int railPos = Vector3Int.zero;
         for (int i = 0; i < length; i++)
         {
             Vector3Int walkerDir = (Random.Range(0, 2) == 0) ? Vector3Int.right : Vector3Int.left;
@@ -54,6 +64,17 @@ public class GenerationManager : MonoBehaviour
             PlaceRail(railPos);
             railPos += Vector3Int.up;
         }
+        tileConstructs["WallMiddle"].PlaceConstruct(railPos);
+    }
+
+    private void FillRemains()
+    {
+
+    }
+
+    private void PlaceWalls()
+    {
+
     }
 
     private void PlaceRail(Vector3Int pos)
@@ -84,6 +105,7 @@ public class TileConstruct
 
     public TileConstruct(Tilemap tilemap)
     {
+        tiles = new List<TileAndPos>();
         Vector3Int boundPos = tilemap.cellBounds.position;
         Vector3Int boundSize = tilemap.cellBounds.size;
         for (int i = boundPos.x; i < boundSize.x; i++)
