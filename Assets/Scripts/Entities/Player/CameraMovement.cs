@@ -8,6 +8,9 @@ public class CameraMovement : MonoBehaviour
 
     [SerializeField] GameObject playerObj;
     [SerializeField] float maxMouseFollowOffset;
+
+    public bool isFollowingPlayer;
+
     private Vector2 targetPosition;
     private Vector2 lastPosition;
     public Vector2 velocity;
@@ -23,20 +26,46 @@ public class CameraMovement : MonoBehaviour
     void Update()
     {
 
-        PlayerFollow();
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            isFollowingPlayer = !isFollowingPlayer;
+        }
 
-
+        if (isFollowingPlayer)
+        {
+            PlayerFollow();
+        }
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            MoveTargetTo(new Vector2(5, 5));
+        }
 
         MoveCamera();
     }
 
 
+    /// <summary>
+    /// Moves targetPosition to a position near the playerm influenced by the mouse position
+    /// </summary>
     void PlayerFollow()
     {
         targetPosition = playerObj.transform.position + (Camera.main.ScreenToWorldPoint(Input.mousePosition) - playerObj.transform.position).normalized * 
             Mathf.Clamp((Camera.main.ScreenToWorldPoint(Input.mousePosition) - playerObj.transform.position).magnitude / 4, 0, maxMouseFollowOffset);
     }
 
+    /// <summary>
+    /// Moves targetPosition to the position of newTarget
+    /// </summary>
+    /// <param name="newTarget"></param>
+    public void MoveTargetTo(Vector2 newTarget)
+    {
+        targetPosition = newTarget;
+    }
+
+
+    /// <summary>
+    /// Moves the camera with Smoothing to targetPosition
+    /// </summary>
     void MoveCamera()
     {
         velocity = (Vector2)transform.position - lastPosition;

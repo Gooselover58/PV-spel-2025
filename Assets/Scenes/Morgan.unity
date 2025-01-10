@@ -739,6 +739,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerObj: {fileID: 399052024}
   maxMouseFollowOffset: 7.5
+  isFollowingPlayer: 1
   velocity: {x: 0, y: 0}
 --- !u!114 &1942469151
 MonoBehaviour:
