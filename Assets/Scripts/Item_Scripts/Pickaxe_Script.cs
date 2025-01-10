@@ -5,7 +5,7 @@ using UnityEngine;
 public class Pickaxe_Script : MonoBehaviour
 {   
     
-    public float PickaxeDamage = -1;
+    public float PickaxeDamage = 1;
     public float Health = 3f;
     // Start is called before the first frame update
     void Start()
@@ -19,20 +19,23 @@ public class Pickaxe_Script : MonoBehaviour
        
     }
     
-    private void OnTriggerStay2D(Collider2D other)
+    private void OnTriggerStay2D(Collider2D collision)
     {
-        if (other.CompareTag("Ore") && Input.GetMouseButtonDown(0))
+        if (collision.CompareTag("Player") && Input.GetMouseButtonDown(0))
         {
-         OreHealth();
+            Debug.Log("du är inne i if-satsen");
+            OreHealth();
         }
     }
     public void OreHealth()
     {
+        Debug.Log("ore metoden har callats");
         Health -= PickaxeDamage;
 
         if (Health <= 0f)
         {
             Destroy(gameObject);
+            Debug.Log("föremålet har förstörts");
         }
     }
 }
