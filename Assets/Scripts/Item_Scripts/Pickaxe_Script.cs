@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class Pickaxe_Script : MonoBehaviour
 {   
-    
-    public float PickaxeDamage = 1;
-    public float Health = 3f;
+    public float pickaxeDamage = 1;
+    public float health = 3f;
+    bool nearOre = false;
+    public GameObject[] pickaxeSounds;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,26 +17,40 @@ public class Pickaxe_Script : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       
+        if (nearOre && Input.GetMouseButtonDown(0))
+        {
+            OreHealth();
+        }
     }
     
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player") && Input.GetMouseButtonDown(0))
+        if (collision.CompareTag("Player"))
         {
-            Debug.Log("du är inne i if-satsen");
-            OreHealth();
+            nearOre = true;
         }
     }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            nearOre = false;
+        }
+    }
+
     public void OreHealth()
     {
-        Debug.Log("ore metoden har callats");
-        Health -= PickaxeDamage;
+        health -= pickaxeDamage;
 
-        if (Health <= 0f)
+        if (health <= 0f)
         {
             Destroy(gameObject);
-            Debug.Log("föremålet har förstörts");
         }
+    }
+
+    public void pickaxeAudioPlayer()
+    {
+        Instantiate()
     }
 }
