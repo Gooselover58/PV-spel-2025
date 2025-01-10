@@ -21,7 +21,7 @@ public class Pickaxe_Script : MonoBehaviour
     
     private void OnTriggerStay2D(Collider2D other)
     {
-        if (other.CompareTag("Player") && Input.GetMouseButtonDown(0))
+        if (other.CompareTag("Ore") && Input.GetMouseButtonDown(0))
         {
          OreHealth();
         }
