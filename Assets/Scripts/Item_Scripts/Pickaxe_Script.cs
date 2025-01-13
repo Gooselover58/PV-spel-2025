@@ -42,7 +42,7 @@ public class Pickaxe_Script : MonoBehaviour
     public void OreHealth()
     {
         health -= pickaxeDamage;
-
+        pickaxeAudioPlayer();
         if (health <= 0f)
         {
             Destroy(gameObject);
@@ -51,6 +51,7 @@ public class Pickaxe_Script : MonoBehaviour
 
     public void pickaxeAudioPlayer()
     {
-        Instantiate()
+        int rn = Random.Range(1, 6);
+        Instantiate(pickaxeSounds[rn], transform.position, Quaternion.identity);
     }
 }
