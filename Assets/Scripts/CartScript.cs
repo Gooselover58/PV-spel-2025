@@ -47,6 +47,7 @@ public class CartScript : MonoBehaviour
         shouldAlign = false;
         if (rb != null)
         {
+            rb.velocity = Vector2.zero;
             rb.isKinematic = false;
         }
     }
