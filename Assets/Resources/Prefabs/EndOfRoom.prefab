@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1867900956235045053}
   - component: {fileID: 5564622793720356931}
+  - component: {fileID: 2015628451023919417}
   m_Layer: 0
   m_Name: Room1
   m_TagString: Untagged
@@ -77,6 +78,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 2}
   m_EdgeRadius: 0
+--- !u!114 &2015628451023919417
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1578124435272059239}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4eac217659d936e4b8934f9dfd756d83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4169016483771773073
 GameObject:
   m_ObjectHideFlags: 0
@@ -87,6 +100,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5825905637251745903}
   - component: {fileID: 35226191764466926}
+  - component: {fileID: 8505665871208765094}
   m_Layer: 0
   m_Name: Room2
   m_TagString: Untagged
@@ -154,6 +168,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 2}
   m_EdgeRadius: 0
+--- !u!114 &8505665871208765094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4169016483771773073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4eac217659d936e4b8934f9dfd756d83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8690933267691081678
 GameObject:
   m_ObjectHideFlags: 0
@@ -164,6 +190,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4827350602526747430}
   - component: {fileID: 8572092997433910341}
+  - component: {fileID: 2535634246274948839}
   m_Layer: 0
   m_Name: Room3
   m_TagString: Untagged
@@ -231,6 +258,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 2}
   m_EdgeRadius: 0
+--- !u!114 &2535634246274948839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8690933267691081678}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4eac217659d936e4b8934f9dfd756d83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8959283648999304812
 GameObject:
   m_ObjectHideFlags: 0
@@ -257,7 +296,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8959283648999304812}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.5, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
