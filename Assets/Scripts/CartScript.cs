@@ -10,14 +10,14 @@ public class CartScript : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        cartWeight = 0;
+        cartWeight = 100;
         ChangeWeight(20f);
     }
 
     public void ChangeWeight(float change)
     {
         cartWeight += change;
-        rb.mass = 0.75f * cartWeight;
-        rb.drag = 0.075f * cartWeight;
+        rb.mass = cartWeight;
+        rb.drag = cartWeight / 100;
     }
 }
