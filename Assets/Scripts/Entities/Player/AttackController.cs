@@ -13,27 +13,41 @@ public class AttackController : MonoBehaviour
 
     [SerializeField] LayerMask hittableObjectsLayer;
 
+    [SerializeField] GameObject attackIndicator;
+    SpriteRenderer attackIndicatorRenderer;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        attackIndicatorRenderer = attackIndicator.GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
     void Update()
     {
         mouseDirection = ((Vector2)(Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position).normalized).normalized;
+
+
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            StartCoroutine(nameof(PickaxeAttack));
+        }
     }
 
 
 
-    private IEnumerator PickaxeAttack()
+    public IEnumerator PickaxeAttack()
     {
+        Vector2 hitPosition = (Vector2)transform.position + mouseDirection * attackRange;
+        attackIndicator.transform.position = hitPosition;
+        
 
-        yield return new WaitForSeconds(0.3f);
-
+        yield return new WaitForSeconds(0.0f);
+        attackIndicatorRenderer.enabled = true;
         PickaxeHit();
+        yield return new WaitForSeconds(0.05f);
+        attackIndicatorRenderer.enabled = false;
     }
 
     private void PickaxeHit()
