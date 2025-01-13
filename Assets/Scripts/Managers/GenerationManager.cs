@@ -41,7 +41,7 @@ public class GenerationManager : MonoBehaviour
         groundMap = worldTilemap.transform.GetChild(0).GetComponent<Tilemap>();
         railMap = worldTilemap.transform.GetChild(1).GetComponent<Tilemap>();
         wallMap = worldTilemap.transform.GetChild(2).GetComponent<Tilemap>();
-        tiles.Add("Rail", Resources.Load<Tile>("Sprites/Tiles/TestRail"));
+        tiles.Add("Rail", Resources.Load<Tile>("Sprites/Tiles/RailTiles_3"));
         tiles.Add("MountainG", Resources.Load<Tile>("Sprites/Tiles/TestGround"));
         tileConstructs.Add("WallMiddle", new TileConstruct(Resources.Load<GameObject>("Prefabs/WallMiddle").GetComponent<Tilemap>()));
         tileConstructs.Add("WallEnd", new TileConstruct(Resources.Load<GameObject>("Prefabs/WallEnd").GetComponent<Tilemap>()));

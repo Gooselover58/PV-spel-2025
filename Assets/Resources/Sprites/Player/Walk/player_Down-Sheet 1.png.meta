@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 00d78902ed76c0b45bb2280839d48164
+guid: 1ae126e742e99884e8b20cca4a3ab17f
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -49,7 +49,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 16
-  spriteBorder: {x: 0, y: 0, z: 128, w: 0}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
@@ -106,11 +106,24 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: player_Down-Sheet_0
+      name: player_Down-Sheet 1_0
       rect:
         serializedVersion: 2
         x: 0
@@ -124,14 +137,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5a4d3bee27afa82449b09634264aac03
-      internalID: -606591771
+      spriteID: a3152e6a79546ad4cad5aa494fc26c08
+      internalID: -1163295011
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_Down-Sheet_1
+      name: player_Down-Sheet 1_1
       rect:
         serializedVersion: 2
         x: 32
@@ -145,14 +158,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 06a62c62cea98fc4b9633e1b2ef34522
-      internalID: 1240423737
+      spriteID: 1869c5ae15a81e945a692c9bbaf756b7
+      internalID: -132250018
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_Down-Sheet_2
+      name: player_Down-Sheet 1_2
       rect:
         serializedVersion: 2
         x: 64
@@ -166,14 +179,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3e93d5316e7e0a947bac16ea7c7dd636
-      internalID: -412131243
+      spriteID: 4e60df773784b1a44a435487e1b22a1b
+      internalID: 58207373
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_Down-Sheet_3
+      name: player_Down-Sheet 1_3
       rect:
         serializedVersion: 2
         x: 96
@@ -187,14 +200,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 48595c34e05bf674e9fd84c94f5a0273
-      internalID: -1955685112
+      spriteID: b4cf8104fa34c6249be227365a600438
+      internalID: 294160928
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: player_Down-Sheet_4
+      name: player_Down-Sheet 1_4
       rect:
         serializedVersion: 2
         x: 128
@@ -208,8 +221,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 12fc33b215edaa642853a89f9da0bf31
-      internalID: -1207610705
+      spriteID: 68fbfb363526a2e4fb383bd9ebb9e292
+      internalID: 456382640
       vertices: []
       indices: 
       edges: []
@@ -218,18 +231,18 @@ TextureImporter:
     physicsShape: []
     bones: []
     spriteID: 5e97eb03825dee720800000000000000
-    internalID: 1537655665
+    internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      player_Down-Sheet_0: -606591771
-      player_Down-Sheet_1: 1240423737
-      player_Down-Sheet_2: -412131243
-      player_Down-Sheet_3: -1955685112
-      player_Down-Sheet_4: -1207610705
+      player_Down-Sheet 1_0: -1163295011
+      player_Down-Sheet 1_1: -132250018
+      player_Down-Sheet 1_2: 58207373
+      player_Down-Sheet 1_3: 294160928
+      player_Down-Sheet 1_4: 456382640
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
