@@ -9,6 +9,9 @@ public class CameraMovement : MonoBehaviour
     [SerializeField] GameObject playerObj;
     [SerializeField] float maxMouseFollowOffset;
 
+    /// <summary>
+    /// If true: targetPosition will follow player. If false: targetPosition will be still, and go where instructed by MoveTargetTo()
+    /// </summary>
     public bool isFollowingPlayer;
 
     private Vector2 targetPosition;
