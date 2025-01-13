@@ -1819,9 +1819,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1baaa2ea7c4e51e4295ec928f9764257, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerObj: {fileID: 0}
-  maxMouseFollowOffset: 0
-  isFollowingPlayer: 0
+  playerObj: {fileID: 1659990919}
+  maxMouseFollowOffset: 5
+  isFollowingPlayer: 1
   velocity: {x: 0, y: 0}
 --- !u!1 &1659990919
 GameObject:
@@ -1836,6 +1836,7 @@ GameObject:
   - component: {fileID: 1659990924}
   - component: {fileID: 1659990923}
   - component: {fileID: 1659990922}
+  - component: {fileID: 1659990925}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1995,6 +1996,27 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!95 &1659990925
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1659990919}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1692337426
 GameObject:
   m_ObjectHideFlags: 0
