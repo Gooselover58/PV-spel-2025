@@ -18,9 +18,16 @@ public class TilePlacer : MonoBehaviour
         Generate();
     }
 
+    public void Clear()
+    {
+        Tilemap.ClearAllTiles();
+        TilemapData.Clear();
+    }
+
     public void Generate()
     {
-        Tilemap = GetComponent<Tilemap>();
+        //Tilemap = GetComponent<Tilemap>();
+        Tilemap.ClearAllTiles();
         TilemapData.Clear();
         var pos = new Vector2Int(0, 0);
         var tile = new Rail(Tilemap, pos);

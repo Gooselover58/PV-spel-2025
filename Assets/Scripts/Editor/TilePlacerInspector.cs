@@ -15,5 +15,15 @@ public class TilePlacerInspector : Editor
         {
             script.Generate();
         }
+
+        if (GUILayout.Button("Clear"))
+        {
+            script.Clear();
+        }
+
+        if (GUILayout.Button("Make Multiplayer"))
+        {
+            script.Clear();
+        }
     }
 }
