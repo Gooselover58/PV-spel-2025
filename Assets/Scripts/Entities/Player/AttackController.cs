@@ -5,11 +5,20 @@ using UnityEngine;
 public class AttackController : MonoBehaviour
 {
 
+    // Pickaxe attack parameters
     [SerializeField] float attackRange;
     [SerializeField] float hitRadius;
     [SerializeField] int attackDamage;
 
+    /// <summary>
+    /// A normalised vector in the direction cursor is from player
+    /// </summary>
     Vector2 mouseDirection;
+
+    /// <summary>
+    /// Current attack coroutine playing
+    /// </summary>
+    Coroutine currentAttackCoroutine = null;
 
     [SerializeField] LayerMask hittableObjectsLayer;
 
@@ -27,29 +36,36 @@ public class AttackController : MonoBehaviour
     {
         mouseDirection = ((Vector2)(Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position).normalized).normalized;
 
-
-
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && currentAttackCoroutine == null)
         {
-            StartCoroutine(nameof(PickaxeAttack));
+            currentAttackCoroutine = StartCoroutine(nameof(PickaxeAttack));
         }
     }
 
 
-
+    /// <summary>
+    /// Plays out entire attack, with delay to account for attack windup
+    /// </summary>
+    /// <returns></returns>
     public IEnumerator PickaxeAttack()
     {
+        yield return new WaitForSeconds(0.25f);
+
         Vector2 hitPosition = (Vector2)transform.position + mouseDirection * attackRange;
         attackIndicator.transform.position = hitPosition;
-        
 
-        yield return new WaitForSeconds(0.0f);
         attackIndicatorRenderer.enabled = true;
         PickaxeHit();
+
         yield return new WaitForSeconds(0.05f);
+
         attackIndicatorRenderer.enabled = false;
+        currentAttackCoroutine = null;
     }
 
+    /// <summary>
+    /// Finds and lists everyrthing that is hit
+    /// </summary>
     private void PickaxeHit()
     {
         Vector2 hitPosition = (Vector2)transform.position + mouseDirection * attackRange;
