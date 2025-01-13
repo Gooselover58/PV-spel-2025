@@ -9,12 +9,14 @@ public class CartScript : MonoBehaviour
     private Vector2 startPos;
     private Vector2 endPos;
     private float time;
+    private bool shouldAlign;
     [SerializeField] float returnForce;
     public static bool isAtEnd;
 
     private void Awake()
     {
         isAtEnd = false;
+        shouldAlign = false;
         rb = GetComponent<Rigidbody2D>();
         cartWeight = 0;
         ChangeWeight(100f);
@@ -23,7 +25,7 @@ public class CartScript : MonoBehaviour
 
     private void Update()
     {
-        if (isAtEnd && endPos != null)
+        if (shouldAlign && endPos != null)
         {
             transform.position = Vector2.Lerp(startPos, endPos, time);
             time += Time.deltaTime;
@@ -35,11 +37,14 @@ public class CartScript : MonoBehaviour
         time = 0;
         isAtEnd = true;
         rb.isKinematic = true;
+        rb.velocity = Vector2.zero;
+        StartCoroutine(AlignCart());
     }
 
     public void ResetCart()
     {
         isAtEnd = false;
+        shouldAlign = false;
         if (rb != null)
         {
             rb.isKinematic = false;
@@ -59,6 +64,13 @@ public class CartScript : MonoBehaviour
         cartWeight += change;
         rb.mass = cartWeight;
         rb.drag = cartWeight / 100;
+    }
+
+    private IEnumerator AlignCart()
+    {
+        shouldAlign = true;
+        yield return new WaitForSeconds(1f);
+        shouldAlign = false;
     }
 
     private void OnTriggerEnter2D(Collider2D col)

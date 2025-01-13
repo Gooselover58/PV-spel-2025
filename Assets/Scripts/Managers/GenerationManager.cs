@@ -78,6 +78,11 @@ public class GenerationManager : MonoBehaviour
             Vector3 exitPos = endPos + exit.transform.position + new Vector3(-1, -1, 0);
             exit.gameObject.SetActive(true);
         }
+        for (int i = endPos.x - 4; i < endPos.x + 4; i++)
+        {
+            Vector3Int groundPos = new Vector3Int(i, endPos.y - 1, 0);
+            PlaceTile(null, groundPos, "Walls");
+        }
     }
 
     private void LoadMap()
