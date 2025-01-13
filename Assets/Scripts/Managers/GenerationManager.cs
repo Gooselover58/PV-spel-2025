@@ -19,6 +19,8 @@ public class GenerationManager : MonoBehaviour
     private GameObject endOfRoomOb;
     private GameObject playerOb;
     private GameObject cartOb;
+    private GameObject cartEndOb;
+    private List<Transform> exits = new List<Transform>();
     [HideInInspector] public Tile currentGroundTile;
 
     public static GenerationManager Instance
@@ -57,16 +59,24 @@ public class GenerationManager : MonoBehaviour
         tilemaps.Add("Walls", wallMap);
         playerOb = FindObjectOfType<TestPlayer>().gameObject;
         cartOb = FindObjectOfType<CartScript>().gameObject;
+        cartEndOb = GameObject.FindGameObjectWithTag("CartEnd");
         currentGroundTile = tiles["MountainG"];
+        foreach (Transform exit in endOfRoomOb.transform)
+        {
+            Vector3 exitPos = Vector3.zero;
+            Transform newExit = Instantiate(exit, exitPos, Quaternion.identity);
+            newExit.gameObject.SetActive(false);
+            exits.Add(newExit);
+        }
     }
 
     private void LoadRoomEnd(Vector3Int endPos)
     {
         tileConstructs["EndOfRoom"].PlaceConstruct(endPos);
-        foreach (Transform exit in endOfRoomOb.transform)
+        foreach (Transform exit in exits)
         {
             Vector3 exitPos = endPos + exit.transform.position + new Vector3(-1, -1, 0);
-            Instantiate(exit, exitPos, Quaternion.identity);
+            exit.gameObject.SetActive(true);
         }
     }
 
@@ -92,6 +102,7 @@ public class GenerationManager : MonoBehaviour
                 PlaceTile(currentGroundTile, tilePos, "Ground");
             }
         }
+        cartOb.GetComponent<CartScript>().ResetCart();
         playerOb.transform.position = new Vector3(-1.5f, -1.5f, 0);
         cartOb.transform.position = new Vector3(0, -1.5f, 0);
     }
@@ -109,7 +120,14 @@ public class GenerationManager : MonoBehaviour
             PlaceRail(railPos);
             railPos += Vector3Int.up;
         }
+        SetCartEnd(railPos + Vector3Int.down);
         return railPos;
+    }
+
+    private void SetCartEnd(Vector3Int pos)
+    {
+        cartEndOb.transform.position = pos;
+        cartEndOb.SetActive(true);
     }
 
     private void FillRemains()
