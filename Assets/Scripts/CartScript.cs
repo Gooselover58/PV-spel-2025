@@ -6,6 +6,9 @@ public class CartScript : MonoBehaviour
 {
     private Rigidbody2D rb;
     private float cartWeight;
+    private Vector2 startPos;
+    private Vector2 endPos;
+    private float time;
     [SerializeField] float returnForce;
     public static bool isAtEnd;
 
@@ -13,13 +16,34 @@ public class CartScript : MonoBehaviour
     {
         isAtEnd = false;
         rb = GetComponent<Rigidbody2D>();
-        cartWeight = 100;
-        ChangeWeight(20f);
+        cartWeight = 0;
+        ChangeWeight(100f);
+        ResetCart();
     }
 
-    private void ResetCart()
+    private void Update()
     {
+        if (isAtEnd && endPos != null)
+        {
+            transform.position = Vector2.Lerp(startPos, endPos, time);
+            time += Time.deltaTime;
+        }
+    }
 
+    private void FinishCart()
+    {
+        time = 0;
+        isAtEnd = true;
+        rb.isKinematic = true;
+    }
+
+    public void ResetCart()
+    {
+        isAtEnd = false;
+        if (rb != null)
+        {
+            rb.isKinematic = false;
+        }
     }
 
     private void FixedUpdate()
@@ -39,6 +63,12 @@ public class CartScript : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D col)
     {
-        
+        if (col.CompareTag("CartEnd"))
+        {
+            startPos = transform.position;
+            endPos = col.transform.position;
+            col.gameObject.SetActive(false);
+            FinishCart();
+        }
     }
 }
