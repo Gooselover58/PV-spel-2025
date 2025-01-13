@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using static UnityEditor.PlayerSettings;
 
 public class GenerationManager : MonoBehaviour
 {
@@ -16,6 +17,8 @@ public class GenerationManager : MonoBehaviour
     private Tilemap railMap;
     private Tilemap wallMap;
     private GameObject endOfRoomOb;
+    private GameObject playerOb;
+    private GameObject cartOb;
     [HideInInspector] public Tile currentGroundTile;
 
     public static GenerationManager Instance
@@ -52,12 +55,19 @@ public class GenerationManager : MonoBehaviour
         tilemaps.Add("Ground", groundMap);
         tilemaps.Add("Rails", railMap);
         tilemaps.Add("Walls", wallMap);
+        playerOb = FindObjectOfType<TestPlayer>().gameObject;
+        cartOb = FindObjectOfType<CartScript>().gameObject;
         currentGroundTile = tiles["MountainG"];
     }
 
     private void LoadRoomEnd(Vector3Int endPos)
     {
         tileConstructs["EndOfRoom"].PlaceConstruct(endPos);
+        foreach (Transform exit in endOfRoomOb.transform)
+        {
+            Vector3 exitPos = endPos + exit.transform.position + new Vector3(-1, -1, 0);
+            Instantiate(exit, exitPos, Quaternion.identity);
+        }
     }
 
     private void LoadMap()
@@ -82,14 +92,17 @@ public class GenerationManager : MonoBehaviour
                 PlaceTile(currentGroundTile, tilePos, "Ground");
             }
         }
+        playerOb.transform.position = new Vector3(-1.5f, -1.5f, 0);
+        cartOb.transform.position = new Vector3(0, -1.5f, 0);
     }
 
     private Vector3Int SetRailWay(int length)
     {
-        minY = -2;
+        minY = -4;
+        railMap.SetTile(new Vector3Int(0, minY - 1, 0), tiles["Rail"]);
         maxY = length;
         Vector3Int railPos = new Vector3Int(0, minY, 0);
-        for (int i = -2; i < length; i++)
+        for (int i = minY; i < length; i++)
         {
             Vector3Int walkerDir = (Random.Range(0, 2) == 0) ? Vector3Int.right : Vector3Int.left;
             new Walker(railPos, walkerDir, Random.Range(50, 80));
