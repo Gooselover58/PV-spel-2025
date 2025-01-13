@@ -15,6 +15,7 @@ public class GenerationManager : MonoBehaviour
     private Tilemap groundMap;
     private Tilemap railMap;
     private Tilemap wallMap;
+    private GameObject endOfRoomOb;
     [HideInInspector] public Tile currentGroundTile;
 
     public static GenerationManager Instance
@@ -43,29 +44,39 @@ public class GenerationManager : MonoBehaviour
         wallMap = worldTilemap.transform.GetChild(2).GetComponent<Tilemap>();
         tiles.Add("Rail", Resources.Load<Tile>("Sprites/Tiles/RailTiles_3"));
         tiles.Add("MountainG", Resources.Load<Tile>("Sprites/Tiles/TestGround"));
+        endOfRoomOb = Resources.Load<GameObject>("Prefabs/EndOfRoom");
         tileConstructs.Add("WallMiddle", new TileConstruct(Resources.Load<GameObject>("Prefabs/WallMiddle").GetComponent<Tilemap>()));
         tileConstructs.Add("WallEnd", new TileConstruct(Resources.Load<GameObject>("Prefabs/WallEnd").GetComponent<Tilemap>()));
         tileConstructs.Add("WallBMiddle", new TileConstruct(Resources.Load<GameObject>("Prefabs/WallBMiddle").GetComponent<Tilemap>()));
+        tileConstructs.Add("EndOfRoom", new TileConstruct(endOfRoomOb.GetComponent<Tilemap>()));
         tilemaps.Add("Ground", groundMap);
         tilemaps.Add("Rails", railMap);
         tilemaps.Add("Walls", wallMap);
         currentGroundTile = tiles["MountainG"];
     }
 
+    private void LoadRoomEnd(Vector3Int endPos)
+    {
+        tileConstructs["EndOfRoom"].PlaceConstruct(endPos);
+    }
+
     private void LoadMap()
     {
         int rand = Random.Range(40, 70);
         SetPlayerStart();
-        SetRailWay(rand);
+        Vector3Int railPos = SetRailWay(rand);
         FillRemains();
         PlaceWalls();
+        Vector3Int endRoomPos = railPos + Vector3Int.up + Vector3Int.right;
+        LoadRoomEnd(endRoomPos);
     }
 
     private void SetPlayerStart()
     {
-        for (int i = -2; i < 3; i++)
+        int size = 4;
+        for (int i = -size; i < size + 1; i++)
         {
-            for (int j = -2; j < 3; j++)
+            for (int j = -size; j < size + 1; j++)
             {
                 Vector3Int tilePos = new Vector3Int(i, j, 0);
                 PlaceTile(currentGroundTile, tilePos, "Ground");
@@ -73,7 +84,7 @@ public class GenerationManager : MonoBehaviour
         }
     }
 
-    private void SetRailWay(int length)
+    private Vector3Int SetRailWay(int length)
     {
         minY = -2;
         maxY = length;
@@ -81,10 +92,11 @@ public class GenerationManager : MonoBehaviour
         for (int i = -2; i < length; i++)
         {
             Vector3Int walkerDir = (Random.Range(0, 2) == 0) ? Vector3Int.right : Vector3Int.left;
-            new Walker(railPos, walkerDir, Random.Range(10, 50));
+            new Walker(railPos, walkerDir, Random.Range(50, 80));
             PlaceRail(railPos);
             railPos += Vector3Int.up;
         }
+        return railPos;
     }
 
     private void FillRemains()

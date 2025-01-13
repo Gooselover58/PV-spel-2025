@@ -26,9 +26,11 @@ public class TestPlayer : MonoBehaviour
     {
         float x = Input.GetAxisRaw("Horizontal");
         float y = Input.GetAxisRaw("Vertical");
+        movement = new Vector2(x, y).normalized * playerFinalSpeed;
         anim.SetFloat("X", x);
         anim.SetFloat("Y", y);
-        movement = new Vector2(x, y).normalized * playerFinalSpeed;
+        bool isMoving = (movement.magnitude > 0) ? true : false;
+        anim.SetBool("IsMoving", isMoving);
         rb.velocity = movement;
     }
 }
