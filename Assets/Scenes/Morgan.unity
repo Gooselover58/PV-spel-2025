@@ -432,7 +432,7 @@ GameObject:
   - component: {fileID: 890702199}
   - component: {fileID: 890702198}
   m_Layer: 0
-  m_Name: Circle
+  m_Name: TempAttackIndicator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -599,9 +599,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1151178491}
   - component: {fileID: 1151178490}
+  - component: {fileID: 1151178487}
   - component: {fileID: 1151178489}
   - component: {fileID: 1151178488}
-  - component: {fileID: 1151178487}
   m_Layer: 7
   m_Name: TempEnemy
   m_TagString: Untagged
@@ -622,7 +622,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  playerFindRadius: 5
+  playerFindRadius: 20
   playerLayer:
     serializedVersion: 2
     m_Bits: 8
