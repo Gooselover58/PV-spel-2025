@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,12 +6,20 @@ using UnityEngine.Tilemaps;
 
 public class TilePlacer : MonoBehaviour
 {
-    private Dictionary<Vector2Int, TileObject> TilemapData = new Dictionary<Vector2Int, TileObject>();
-    private Tilemap Tilemap;
+    public Dictionary<Vector2Int, AbstractTile> GroundmapData = new Dictionary<Vector2Int, AbstractTile>();
+    public Dictionary<Vector2Int, AbstractTile> WalkermapData = new Dictionary<Vector2Int, AbstractTile>();
+
+    public Tilemap Groundmap;
+    public Tilemap Debugmap;
 
     private void Awake()
     {
-        Tilemap = GetComponent<Tilemap>();
+        //LoadResources();
+    }
+
+    public void LoadResources()
+    {
+        
     }
 
     private void Start()
@@ -20,19 +29,36 @@ public class TilePlacer : MonoBehaviour
 
     public void Clear()
     {
-        Tilemap.ClearAllTiles();
-        TilemapData.Clear();
+        Groundmap.ClearAllTiles();
+        GroundmapData.Clear();
     }
 
     public void Generate()
     {
-        //Tilemap = GetComponent<Tilemap>();
-        Tilemap.ClearAllTiles();
-        TilemapData.Clear();
-        var pos = new Vector2Int(0, 0);
-        var tile = new Rail(Tilemap, pos);
-        TilemapData.Add(pos, tile);
-        tile.OnGenerate();
+        Clear();
+        var startPos = new Vector2Int(0, 0);
 
+        for (int i = 0; i < 20; i++)
+        {
+            var pos = new Vector2Int(startPos.x, startPos.y + i);
+            var tile = new Rail(pos, this);
+            PlaceTile(tile, GroundmapData);
+        }
+    }
+
+    public void PlaceTile(AbstractTile tile, Dictionary<Vector2Int, AbstractTile> dictionary) 
+    {
+        dictionary.Add(tile.Position, tile);
+        tile.OnGenerate();
+    }
+
+    public void Step() 
+    {
+        var values = WalkermapData.Values;
+
+        foreach (WalkerTile tile in values)
+        {
+            tile.Step();
+        }
     }
 }

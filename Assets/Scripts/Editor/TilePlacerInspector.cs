@@ -21,9 +21,14 @@ public class TilePlacerInspector : Editor
             script.Clear();
         }
 
-        if (GUILayout.Button("Make Multiplayer"))
+        if (GUILayout.Button("Step"))
         {
-            script.Clear();
+            script.Step();
+        }
+
+        if (GUILayout.Button("Load Resources"))
+        {
+            script.LoadResources();
         }
     }
 }

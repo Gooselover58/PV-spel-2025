@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class Rail : TileObject
+public class Rail : AbstractTile
 {
-    public Rail(Tilemap tilemap, Vector2Int position) : base(tilemap, position) { }
-
+    public Rail(Vector2Int position, TilePlacer tilePlacer) : base(position, tilePlacer) { }
     public override void OnGenerate() 
     {
-        var tile = Resources.Load<Tile>("Sprites/Tiles/rail_big");
-        var pos = new Vector3Int(Position.x, Position.y, 0);
-        Tilemap.SetTile(pos, tile);
+        TilePlacer.Groundmap.SetTile(new Vector3Int(Position.x, Position.y, 0), Resources.Load<Tile>("Tiles/rail_big"));
+
+        var pos = new Vector2Int(Position.x + 1, Position.y);
+        TilePlacer.PlaceTile(new WalkerTile(pos, TilePlacer), TilePlacer.WalkermapData);
     }
 
 

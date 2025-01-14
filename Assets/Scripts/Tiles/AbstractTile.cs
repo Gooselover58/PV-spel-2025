@@ -4,15 +4,15 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using static UnityEditor.PlayerSettings;
 
-public abstract class TileObject
+public abstract class AbstractTile
 {
-    protected Vector2Int Position;
-    protected Tilemap Tilemap;
+    public Vector2Int Position;
+    protected TilePlacer TilePlacer;
 
-    public TileObject(Tilemap tilemap, Vector2Int position)
+    public AbstractTile(Vector2Int position, TilePlacer tilePlacer)
     {
-        Tilemap = tilemap;
         Position = position;
+        TilePlacer = tilePlacer;
     }
 
     //public abstract string Tile();
