@@ -14,7 +14,7 @@ public class TestPlayer : MonoBehaviour
     Vector2 moveDirection;
 
     public UnityEvent footstepEvent;
-
+    AudioSource footstepSound;
 
     private void Awake()
     {
@@ -22,6 +22,7 @@ public class TestPlayer : MonoBehaviour
         anim = GetComponent<Animator>();
         playerFinalSpeed = playerBaseSpeed;
         footstepEvent = new UnityEvent();
+        footstepSound = GetComponent<AudioSource>();
         footstepEvent.AddListener(PlayFootStepSound);
     }
 
@@ -41,6 +42,7 @@ public class TestPlayer : MonoBehaviour
         bool isMoving = (movement.magnitude > 0) ? true : false;
         anim.SetBool("IsMoving", isMoving);
         rb.velocity = movement;
+
     }
 
     private void SetMoveDirection(float xMove, float yMove)
@@ -54,7 +56,7 @@ public class TestPlayer : MonoBehaviour
 
     public void PlayFootStepSound()
     {
-
+        footstepSound.Play();
     }
 
 }
