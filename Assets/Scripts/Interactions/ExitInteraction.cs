@@ -8,7 +8,7 @@ public class ExitInteraction : Interaction
     {
         if (CartScript.isAtEnd)
         {
-            Debug.Log("Would go into next room if was implemented UwU");
+            GenerationManager.Instance.LoadNewLevel();
         }
         else
         {

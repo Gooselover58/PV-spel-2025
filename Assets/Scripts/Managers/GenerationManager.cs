@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using static UnityEditor.PlayerSettings;
 
 public class GenerationManager : MonoBehaviour
 {
@@ -19,7 +18,9 @@ public class GenerationManager : MonoBehaviour
     private GameObject endOfRoomOb;
     private GameObject playerOb;
     private GameObject cartOb;
+    private CartScript cartScript;
     private GameObject cartEndOb;
+    private GameObject screenTransitionOb;
     private List<Transform> exits = new List<Transform>();
     [HideInInspector] public Tile currentGroundTile;
 
@@ -59,7 +60,10 @@ public class GenerationManager : MonoBehaviour
         tilemaps.Add("Walls", wallMap);
         playerOb = FindObjectOfType<TestPlayer>().gameObject;
         cartOb = FindObjectOfType<CartScript>().gameObject;
+        cartScript = cartOb.GetComponent<CartScript>();
         cartEndOb = GameObject.FindGameObjectWithTag("CartEnd");
+        screenTransitionOb = GameObject.FindGameObjectWithTag("ScreenTransition");
+        screenTransitionOb.SetActive(false);
         currentGroundTile = tiles["MountainG"];
         foreach (Transform exit in endOfRoomOb.transform)
         {
@@ -78,6 +82,37 @@ public class GenerationManager : MonoBehaviour
             Vector3 exitPos = endPos + exit.transform.position + new Vector3(-1, -1, 0);
             exit.gameObject.SetActive(true);
         }
+        for (int i = endPos.x - 4; i < endPos.x + 4; i++)
+        {
+            Vector3Int groundPos = new Vector3Int(i, endPos.y - 1, 0);
+            PlaceTile(null, groundPos, "Walls");
+        }
+    }
+
+    //Implement later for different level types idk :3
+    public void LoadNewLevel()
+    {
+        ClearMap();
+        StartCoroutine(SetMoveTransition());
+    }
+
+    private IEnumerator SetMoveTransition()
+    {
+        screenTransitionOb.SetActive(true);
+        Animator stAnim = screenTransitionOb.GetComponent<Animator>();
+        stAnim.SetTrigger("First");
+        yield return new WaitForSeconds(stAnim.GetCurrentAnimatorStateInfo(0).length);
+        LoadMap();
+        stAnim.SetTrigger("Second");
+        yield return new WaitForSeconds(stAnim.GetCurrentAnimatorStateInfo(0).length);
+        screenTransitionOb.SetActive(false);
+    }
+
+    private void ClearMap()
+    {
+        groundMap.ClearAllTiles();
+        railMap.ClearAllTiles();
+        wallMap.ClearAllTiles();
     }
 
     private void LoadMap()
@@ -91,6 +126,7 @@ public class GenerationManager : MonoBehaviour
         LoadRoomEnd(endRoomPos);
     }
 
+
     private void SetPlayerStart()
     {
         int size = 4;
@@ -102,7 +138,7 @@ public class GenerationManager : MonoBehaviour
                 PlaceTile(currentGroundTile, tilePos, "Ground");
             }
         }
-        cartOb.GetComponent<CartScript>().ResetCart();
+        cartScript.ResetCart();
         playerOb.transform.position = new Vector3(-1.5f, -1.5f, 0);
         cartOb.transform.position = new Vector3(0, -1.5f, 0);
     }
