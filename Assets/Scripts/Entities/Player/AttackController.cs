@@ -74,7 +74,9 @@ public class AttackController : MonoBehaviour
 
         foreach (Collider2D hitCollider in hitColliders)
         {
-            print(hitCollider.gameObject.name);
+            GameObject hitObject = hitCollider.gameObject;
+            EntityHealth health = hitObject.GetComponent<EntityHealth>();
+            health.ChangeHealth(-attackDamage);
         }
     }
 
