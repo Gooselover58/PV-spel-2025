@@ -25,10 +25,13 @@ public class AttackController : MonoBehaviour
     [SerializeField] GameObject attackIndicator;
     SpriteRenderer attackIndicatorRenderer;
 
+    Animator playerAnimations;
+
     // Start is called before the first frame update
     void Start()
     {
         attackIndicatorRenderer = attackIndicator.GetComponent<SpriteRenderer>();
+        playerAnimations = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -49,17 +52,16 @@ public class AttackController : MonoBehaviour
     /// <returns></returns>
     public IEnumerator PickaxeAttack()
     {
+        Vector2 direction = mouseDirection;
+        playerAnimations.SetFloat("MouseDirectionX", direction.x);
+        playerAnimations.SetFloat("MouseDirectionY", direction.y);
+        playerAnimations.SetTrigger("PickaxeAttack");
         yield return new WaitForSeconds(0.25f);
 
-        Vector2 hitPosition = (Vector2)transform.position + mouseDirection * attackRange;
-        attackIndicator.transform.position = hitPosition;
-
-        attackIndicatorRenderer.enabled = true;
         PickaxeHit();
 
-        yield return new WaitForSeconds(0.05f);
-
-        attackIndicatorRenderer.enabled = false;
+        yield return new WaitForSeconds(0.25f);
+        
         currentAttackCoroutine = null;
 
     }
