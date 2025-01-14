@@ -35,6 +35,7 @@ public class TestPlayer : MonoBehaviour
         bool isMoving = (movement.magnitude > 0) ? true : false;
         anim.SetBool("IsMoving", isMoving);
         rb.velocity = movement;
+
     }
 
     private void SetMoveDirection(float xMove, float yMove)
