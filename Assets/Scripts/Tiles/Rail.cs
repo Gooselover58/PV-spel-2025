@@ -10,20 +10,15 @@ public class Rail : AbstractTile
     {
         TilePlacer.Groundmap.SetTile(new Vector3Int(Position.x, Position.y, 0), Resources.Load<Tile>("Tiles/rail_big"));
 
-        var pos = new Vector2Int(Position.x + 1, Position.y);
-        TilePlacer.PlaceTile(new WalkerTile(pos, TilePlacer), TilePlacer.WalkermapData);
+        if (Random.Range(1, 5) == 1) GenerateWalker();
     }
 
-
-    // Start is called before the first frame update
-    void Start()
+    private void GenerateWalker()
     {
-        
-    }
+        // Randomly chooses 1 or -1
+        var dir = (Random.value > 0.5) ? 1 : -1;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        var pos = new Vector2Int(Position.x + dir, Position.y);
+        TilePlacer.PlaceTile(new WalkerTile(pos, TilePlacer, new Vector2Int(dir, 0)), TilePlacer.WalkermapData);
     }
 }

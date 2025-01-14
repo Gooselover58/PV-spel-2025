@@ -31,6 +31,8 @@ public class TilePlacer : MonoBehaviour
     {
         Groundmap.ClearAllTiles();
         GroundmapData.Clear();
+        Debugmap.ClearAllTiles();
+        WalkermapData.Clear();
     }
 
     public void Generate()
