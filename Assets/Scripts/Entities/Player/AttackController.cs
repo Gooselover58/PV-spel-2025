@@ -61,6 +61,7 @@ public class AttackController : MonoBehaviour
 
         attackIndicatorRenderer.enabled = false;
         currentAttackCoroutine = null;
+
     }
 
     /// <summary>
@@ -76,6 +77,7 @@ public class AttackController : MonoBehaviour
             print(hitCollider.gameObject.name);
         }
     }
+
 
     private void OnDrawGizmos()
     {
