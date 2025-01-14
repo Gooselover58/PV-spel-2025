@@ -20,6 +20,7 @@ public class GenerationManager : MonoBehaviour
     private GameObject cartOb;
     private CartScript cartScript;
     private GameObject cartEndOb;
+    private GameObject screenTransitionOb;
     private List<Transform> exits = new List<Transform>();
     [HideInInspector] public Tile currentGroundTile;
 
@@ -61,6 +62,8 @@ public class GenerationManager : MonoBehaviour
         cartOb = FindObjectOfType<CartScript>().gameObject;
         cartScript = cartOb.GetComponent<CartScript>();
         cartEndOb = GameObject.FindGameObjectWithTag("CartEnd");
+        screenTransitionOb = GameObject.FindGameObjectWithTag("ScreenTransition");
+        screenTransitionOb.SetActive(false);
         currentGroundTile = tiles["MountainG"];
         foreach (Transform exit in endOfRoomOb.transform)
         {
@@ -90,12 +93,19 @@ public class GenerationManager : MonoBehaviour
     public void LoadNewLevel()
     {
         ClearMap();
-        LoadMap();
+        StartCoroutine(SetMoveTransition());
     }
 
-    private void SetMoveTransition()
+    private IEnumerator SetMoveTransition()
     {
-
+        screenTransitionOb.SetActive(true);
+        Animator stAnim = screenTransitionOb.GetComponent<Animator>();
+        stAnim.SetTrigger("First");
+        yield return new WaitForSeconds(stAnim.GetCurrentAnimatorStateInfo(0).length);
+        LoadMap();
+        stAnim.SetTrigger("Second");
+        yield return new WaitForSeconds(stAnim.GetCurrentAnimatorStateInfo(0).length);
+        screenTransitionOb.SetActive(false);
     }
 
     private void ClearMap()
