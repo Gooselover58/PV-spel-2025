@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class TestPlayer : MonoBehaviour
 {
@@ -12,11 +13,16 @@ public class TestPlayer : MonoBehaviour
 
     Vector2 moveDirection;
 
+    public UnityEvent footstepEvent;
+
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         playerFinalSpeed = playerBaseSpeed;
+        footstepEvent = new UnityEvent();
+        footstepEvent.AddListener(PlayFootStepSound);
     }
 
     private void FixedUpdate()
@@ -45,6 +51,11 @@ public class TestPlayer : MonoBehaviour
             moveDirection.x = xMove;
             moveDirection.y = yMove;
         }
+    }
+
+    public void PlayFootStepSound()
+    {
+
     }
 
 }
