@@ -22,15 +22,11 @@ public class AttackController : MonoBehaviour
 
     [SerializeField] LayerMask hittableObjectsLayer;
 
-    [SerializeField] GameObject attackIndicator;
-    SpriteRenderer attackIndicatorRenderer;
-
     Animator playerAnimations;
 
     // Start is called before the first frame update
     void Start()
     {
-        attackIndicatorRenderer = attackIndicator.GetComponent<SpriteRenderer>();
         playerAnimations = GetComponent<Animator>();
     }
 
