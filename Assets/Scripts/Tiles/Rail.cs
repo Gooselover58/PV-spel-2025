@@ -8,7 +8,8 @@ public class Rail : AbstractTile
     public Rail(Vector2Int position, TilePlacer tilePlacer) : base(position, tilePlacer) { }
     public override void OnGenerate() 
     {
-        TilePlacer.Groundmap.SetTile(new Vector3Int(Position.x, Position.y, 0), Resources.Load<Tile>("Tiles/rail_big"));
+        TilePlacer.Groundmap.SetTile(new Vector3Int(Position.x, Position.y, 0), Resources.Load<Tile>("Tiles/cave_floor"));
+        TilePlacer.Overlaymap.SetTile(new Vector3Int(Position.x, Position.y, 0), Resources.Load<Tile>("Tiles/rail"));
 
         if (Random.Range(1, 5) == 1) GenerateWalker();
     }
