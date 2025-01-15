@@ -9,7 +9,9 @@ public class TestPlayer : MonoBehaviour
     private Animator anim;
     [SerializeField] float playerBaseSpeed;
     private float playerFinalSpeed;
+    private float weight;
     private Vector2 movement;
+    private GameObject heldItem;
 
     Vector2 moveDirection;
 
@@ -20,7 +22,8 @@ public class TestPlayer : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
-        playerFinalSpeed = playerBaseSpeed;
+        weight = 0;
+        ChangeWeight(10f);
         footstepEvent = new UnityEvent();
         footstepSound = GetComponent<AudioSource>();
         footstepEvent.AddListener(PlayFootStepSound);
@@ -51,6 +54,38 @@ public class TestPlayer : MonoBehaviour
         {
             moveDirection.x = xMove;
             moveDirection.y = yMove;
+        }
+    }
+
+    private void ChangeWeight(float change)
+    {
+        weight += change;
+        playerFinalSpeed = playerBaseSpeed / (weight / 10);
+    }
+
+    public void PickUpItem(GameObject ob)
+    {
+        iHoldable holdable = ob.GetComponent<iHoldable>();
+        if (holdable != null)
+        {
+            heldItem = ob;
+            heldItem.GetComponent<SpriteRenderer>().enabled = false;
+            ChangeWeight(holdable.weight);
+        }
+    }
+
+    public void DropItem()
+    {
+        if (heldItem != null)
+        {
+            iHoldable holdable = heldItem.GetComponent<iHoldable>();
+            if (holdable != null)
+            {
+                ChangeWeight(-holdable.weight);
+                heldItem.transform.position = transform.position;
+                heldItem.GetComponent<SpriteRenderer>().enabled = true;
+                heldItem = null;
+            }
         }
     }
 

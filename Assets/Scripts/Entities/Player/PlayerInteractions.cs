@@ -4,8 +4,14 @@ using UnityEngine;
 
 public class PlayerInteractions : MonoBehaviour
 {
-    private Interaction curInteraction;
+    private TestPlayer player;
+    private IInteractable curInteraction;
     [SerializeField] float interactionRange;
+
+    private void Awake()
+    {
+        player = GetComponent<TestPlayer>();
+    }
 
     private void Update()
     {
@@ -19,14 +25,14 @@ public class PlayerInteractions : MonoBehaviour
         float lowestDist = interactionRange;
         foreach (Collider2D col in cols)
         {
-            if (col.GetComponent<Interaction>() == null)
+            if (col.GetComponent<IInteractable>() == null)
             {
                 continue;
             }
             float distance = (transform.position - col.transform.position).magnitude;
             if (distance < lowestDist)
             {
-                curInteraction = col.GetComponent<Interaction>();
+                curInteraction = col.GetComponent<IInteractable>();
             }
         }
     }
@@ -36,6 +42,11 @@ public class PlayerInteractions : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E) && curInteraction != null)
         {
             curInteraction.Interact();
+            curInteraction = null;
+        }
+        else if (Input.GetKeyDown(KeyCode.Q))
+        {
+            player.DropItem();
         }
     }
 

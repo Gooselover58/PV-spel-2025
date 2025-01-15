@@ -6,6 +6,7 @@ using UnityEngine.Tilemaps;
 public class GenerationManager : MonoBehaviour
 {
     private static GenerationManager instance;
+    public static TestPlayer player;
     public static int maxY;
     public static int minY;
     private Dictionary<string, Tile> tiles = new Dictionary<string, Tile>();
@@ -44,6 +45,7 @@ public class GenerationManager : MonoBehaviour
 
     private void LoadResources()
     {
+        player = FindObjectOfType<TestPlayer>().GetComponent<TestPlayer>();
         worldTilemap = GameObject.FindGameObjectWithTag("WorldTilemap");
         groundMap = worldTilemap.transform.GetChild(0).GetComponent<Tilemap>();
         railMap = worldTilemap.transform.GetChild(1).GetComponent<Tilemap>();
@@ -58,11 +60,11 @@ public class GenerationManager : MonoBehaviour
         tilemaps.Add("Ground", groundMap);
         tilemaps.Add("Rails", railMap);
         tilemaps.Add("Walls", wallMap);
-        playerOb = FindObjectOfType<TestPlayer>().gameObject;
+        playerOb = player.gameObject;
         cartOb = FindObjectOfType<CartScript>().gameObject;
         cartScript = cartOb.GetComponent<CartScript>();
         cartEndOb = GameObject.FindGameObjectWithTag("CartEnd");
-        screenTransitionOb = GameObject.FindGameObjectWithTag("ScreenTransition");
+        screenTransitionOb = GameObject.FindGameObjectWithTag("ScreenTransition").transform.GetChild(0).gameObject;
         screenTransitionOb.SetActive(false);
         currentGroundTile = tiles["MountainG"];
         foreach (Transform exit in endOfRoomOb.transform)

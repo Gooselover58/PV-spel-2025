@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CartScript : MonoBehaviour
+public class CartScript : MonoBehaviour, IInteractable
 {
     private Rigidbody2D rb;
     private float cartWeight;
@@ -30,6 +30,11 @@ public class CartScript : MonoBehaviour
             transform.position = Vector2.Lerp(startPos, endPos, time);
             time += Time.deltaTime;
         }
+    }
+
+    public void Interact()
+    {
+
     }
 
     private void FinishCart()
