@@ -88,6 +88,8 @@ public class TestPlayer : MonoBehaviour
 
     public void PlayFootStepSound()
     {
+
+        footstepSound.pitch = Random.Range(0.8f, 1.2f);
         footstepSound.Play();
     }
 
