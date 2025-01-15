@@ -51,7 +51,7 @@ public class EntityHealth : MonoBehaviour
 
         if (health <= 0)
         {
-            print(gameObject.name + " died!!! This is so sad.");
+            print(gameObject.name + " died!!! This is so sad. ;(");
             Destroy(gameObject, 0.2f);
         }
     }
