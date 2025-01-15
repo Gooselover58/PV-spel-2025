@@ -7,9 +7,13 @@ using UnityEngine.Tilemaps;
 public class TilePlacer : MonoBehaviour
 {
     public Dictionary<Vector2Int, AbstractTile> GroundmapData = new Dictionary<Vector2Int, AbstractTile>();
+    public Dictionary<Vector2Int, AbstractTile> OverlaymapData = new Dictionary<Vector2Int, AbstractTile>();
+
     public Dictionary<Vector2Int, AbstractTile> WalkermapData = new Dictionary<Vector2Int, AbstractTile>();
 
     public Tilemap Groundmap;
+    public Tilemap Overlaymap;
+
     public Tilemap Debugmap;
 
     private void Awake()
@@ -31,6 +35,9 @@ public class TilePlacer : MonoBehaviour
     {
         Groundmap.ClearAllTiles();
         GroundmapData.Clear();
+        Overlaymap.ClearAllTiles();
+        OverlaymapData.Clear();
+        
         Debugmap.ClearAllTiles();
         WalkermapData.Clear();
     }

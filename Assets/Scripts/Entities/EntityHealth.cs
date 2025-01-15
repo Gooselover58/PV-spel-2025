@@ -8,9 +8,15 @@ public class EntityHealth : MonoBehaviour
     [SerializeField] int baseHealth;
     int health;
 
+    Coroutine damageFlashCoroutine = null;
+
+    SpriteRenderer sprite;
+
     private void Awake()
     {
         health = baseHealth;
+        sprite = GetComponent<SpriteRenderer>();
+
     }
 
     // Start is called before the first frame update
@@ -32,10 +38,29 @@ public class EntityHealth : MonoBehaviour
     public void ChangeHealth(int amount)
     {
         health += amount;
+
+        if (damageFlashCoroutine == null)
+        {
+            damageFlashCoroutine = StartCoroutine(TakeDamageFlash());
+        }
+        else
+        {
+            StopCoroutine(damageFlashCoroutine);
+            damageFlashCoroutine = StartCoroutine(TakeDamageFlash());
+        }
+
         if (health <= 0)
         {
-            print(gameObject.name + " died!!! This is so sad.");
+            print(gameObject.name + " died!!! This is so sad. ;(");
+            Destroy(gameObject, 0.2f);
         }
+    }
+
+    private IEnumerator TakeDamageFlash()
+    {
+        sprite.color = Color.red;
+        yield return new WaitForSeconds(0.2f);
+        sprite.color = Color.white;
     }
 
 }

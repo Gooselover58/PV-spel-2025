@@ -15,7 +15,6 @@ public class TestPlayer : MonoBehaviour
 
     Vector2 moveDirection;
 
-    public UnityEvent footstepEvent;
     AudioSource footstepSound;
 
     private void Awake()
@@ -24,9 +23,7 @@ public class TestPlayer : MonoBehaviour
         anim = GetComponent<Animator>();
         weight = 0;
         ChangeWeight(10f);
-        footstepEvent = new UnityEvent();
         footstepSound = GetComponent<AudioSource>();
-        footstepEvent.AddListener(PlayFootStepSound);
     }
 
     private void FixedUpdate()
@@ -91,6 +88,8 @@ public class TestPlayer : MonoBehaviour
 
     public void PlayFootStepSound()
     {
+
+        footstepSound.pitch = Random.Range(0.8f, 1.2f);
         footstepSound.Play();
     }
 

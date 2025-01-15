@@ -21,9 +21,29 @@ public class WalkerTile : AbstractTile
         TilePlacer.Debugmap.SetTile(new Vector3Int(Position.x, Position.y, 0), Resources.Load<Tile>("Tiles/debug_walker"));
     }
 
+    private void Turn() 
+    {
+        Vector2Int turnedVec = new Vector2Int(Direction.y, Direction.x);
+        int shouldReverseDir = Random.Range(0, 2);
+        int x = (shouldReverseDir == 0) ? turnedVec.x : -turnedVec.x;
+        int y = (shouldReverseDir == 0) ? turnedVec.y : -turnedVec.y;
+        Direction = new Vector2Int(x, y);
+    }
+
     public void Step() 
     {
+        int turnChance = 5;
+
+        TilePlacer.PlaceTile(new CaveFloor(Position, TilePlacer), TilePlacer.OverlaymapData);
         Position += Direction;
-        RenderTile(Position);
+        
+        if (Random.Range(0, turnChance) == 0)
+        {
+            Turn();
+        }
+        else
+        {
+            turnChance--;
+        }
     }
 }

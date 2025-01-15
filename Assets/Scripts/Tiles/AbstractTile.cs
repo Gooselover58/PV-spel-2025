@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using static UnityEditor.PlayerSettings;
+//using static UnityEditor.PlayerSettings;
+// Temporary fix to build
 
 public abstract class AbstractTile
 {

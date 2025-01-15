@@ -22,15 +22,11 @@ public class AttackController : MonoBehaviour
 
     [SerializeField] LayerMask hittableObjectsLayer;
 
-    [SerializeField] GameObject attackIndicator;
-    SpriteRenderer attackIndicatorRenderer;
-
     Animator playerAnimations;
 
     // Start is called before the first frame update
     void Start()
     {
-        attackIndicatorRenderer = attackIndicator.GetComponent<SpriteRenderer>();
         playerAnimations = GetComponent<Animator>();
     }
 
@@ -56,11 +52,11 @@ public class AttackController : MonoBehaviour
         playerAnimations.SetFloat("MouseDirectionX", direction.x);
         playerAnimations.SetFloat("MouseDirectionY", direction.y);
         playerAnimations.SetTrigger("PickaxeAttack");
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(0.2f);
 
         PickaxeHit();
 
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(0.3f);
         
         currentAttackCoroutine = null;
 
