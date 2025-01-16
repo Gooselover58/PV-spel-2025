@@ -22,7 +22,7 @@ public class Rail : AbstractTile
 
     private void GenerateFloor() 
     {
-        if (Random.Range(1, 5) != 1)
+        if (Random.Range(0, 5) != 0)
         {
             tilePlacer.PlaceTile(new CaveFloor(new Vector2Int(Position.x + 1, Position.y), tilePlacer), tilePlacer.GroundmapData);
         }
@@ -31,7 +31,7 @@ public class Rail : AbstractTile
             tilePlacer.PlaceTile(new FloorPlacer(new Vector2Int(Position.x + 1, Position.y), tilePlacer, true), tilePlacer.WalkermapData);
         }
 
-        if (Random.Range(1, 5) != 1) 
+        if (Random.Range(0, 5) != 0) 
         { 
             tilePlacer.PlaceTile(new CaveFloor(new Vector2Int(Position.x - 1, Position.y), tilePlacer), tilePlacer.GroundmapData); 
         }

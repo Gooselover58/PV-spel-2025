@@ -14,7 +14,7 @@ public class FloorPlacer : AbstractTile
         tilePlacer.Debugmap.SetTile(new Vector3Int(Position.x, Position.y, 0), Resources.Load<Tile>("Tiles/debug_floor"));
 
         GenerateFloor();
-        //tilePlacer.PlaceTile(new CaveFloor(Position, tilePlacer), tilePlacer.GroundmapData);
+        tilePlacer.PlaceTile(new CaveFloor(Position, tilePlacer), tilePlacer.GroundmapData);
     }
 
     private void GenerateFloor()
@@ -33,14 +33,15 @@ public class FloorPlacer : AbstractTile
     private void PlaceFloor(int x, int y, Vector2Int startPos)
     {
         var currentPos = new Vector2Int(startPos.x + x, startPos.y + y);
-        if (!tilePlacer.GroundmapData.ContainsKey(currentPos))
+
+        if (Random.Range(0, 10) == 0 && canDuplicate)
         {
-            if (Random.Range(1, 5) == 1 && canDuplicate)
-            {
-                tilePlacer.PlaceTile(new FloorPlacer(new Vector2Int(Position.x - 1, Position.y), tilePlacer, false), tilePlacer.WalkermapData);
-            }
+            tilePlacer.PlaceTile(new FloorPlacer(new Vector2Int(Position.x - 1, Position.y), tilePlacer, false), tilePlacer.WalkermapData);
+        }
+
+        if (Random.Range(0, 5) != 0) 
+        {
             tilePlacer.PlaceTile(new CaveFloor(currentPos, tilePlacer), tilePlacer.GroundmapData);
-            
         }
     }
 }

@@ -10,8 +10,9 @@ public class WalkerTile : AbstractTile
     private int lifeTime;
     private Vector2Int walkerPos;
 
-    private int turnChance = 10;
+    private int turnChance = 15;
     private bool isActive = true;
+    private int bridge = 0;
 
     public WalkerTile(Vector2Int position, TilePlacer tilePlacer, Vector2Int direction) : base(position, tilePlacer) 
     {
@@ -31,29 +32,43 @@ public class WalkerTile : AbstractTile
         int x = (shouldReverseDir == 0) ? turnedVec.x : -turnedVec.x;
         int y = (shouldReverseDir == 0) ? turnedVec.y : -turnedVec.y;
         direction = new Vector2Int(x, y);
-        turnChance = 5;
+        turnChance = 7;
     }
 
     public void Step() 
     {
-        if (isActive)
+        if (isActive) 
         {
-            lifeTime--;
-
-            if (!tilePlacer.GroundmapData.ContainsKey(walkerPos)) tilePlacer.PlaceTile(new FloorPlacer(walkerPos, tilePlacer, true), tilePlacer.WalkermapData);
-            walkerPos += direction;
-
-            if (Random.Range(0, turnChance) == 0)
+            if (bridge == 0)
             {
-                Turn();
+                lifeTime--;
+
+                tilePlacer.PlaceTile(new FloorPlacer(walkerPos, tilePlacer, true), tilePlacer.WalkermapData);
+                walkerPos += direction;
+
+                if (Random.Range(0, turnChance) == 0)
+                {
+                    Turn();
+                }
+                else
+                {
+                    turnChance--;
+                }
+
+                if (Random.Range(0, 5) == 0) { bridge = Random.Range(5, 7); }
+
+                if (lifeTime <= 0) isActive = false;
             }
             else
             {
-                turnChance--;
-            }
+                lifeTime = 4;
+                bridge--;
 
-            if (lifeTime <= 0) isActive = false;
-        }
-        
+                tilePlacer.PlaceTile(new Bridge(walkerPos, tilePlacer, direction), tilePlacer.GroundmapData);
+
+                if (bridge == 0) walkerPos += direction;
+                walkerPos += direction;
+            }
+        }   
     }
 }
