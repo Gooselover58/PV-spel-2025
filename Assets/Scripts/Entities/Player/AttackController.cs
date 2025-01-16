@@ -10,7 +10,7 @@ public class AttackController : MonoBehaviour
     [SerializeField] float hitRadius;
     [SerializeField] int attackDamage;
 
-    AudioSource swooshSound;
+    [SerializeField] AudioSource swooshSound;
 
     /// <summary>
     /// A normalised vector in the direction cursor is from player
