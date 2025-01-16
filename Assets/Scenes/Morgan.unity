@@ -383,6 +383,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerBaseSpeed: 10
+  weight: 0
+  heldItem: {fileID: 0}
 --- !u!95 &399052030
 Animator:
   serializedVersion: 5

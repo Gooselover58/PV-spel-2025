@@ -14,6 +14,7 @@ public class TestPlayer : MonoBehaviour
     public GameObject heldItem;
 
     Vector2 moveDirection;
+    bool isLightingTheWay;
 
     AudioSource footstepSound;
 
@@ -24,6 +25,18 @@ public class TestPlayer : MonoBehaviour
         weight = 0;
         ChangeWeight(10f);
         footstepSound = GetComponent<AudioSource>();
+    }
+
+    private void Update()
+    {
+        if (Input.GetMouseButton(1))
+        {
+            isLightingTheWay = true;
+        }
+        else
+        {
+            isLightingTheWay = false;
+        }
     }
 
     private void FixedUpdate()
@@ -47,10 +60,15 @@ public class TestPlayer : MonoBehaviour
 
     private void SetMoveDirection(float xMove, float yMove)
     {
-        if (movement.magnitude > 0)
+        if (movement.magnitude > 0 && !isLightingTheWay)
         {
             moveDirection.x = xMove;
             moveDirection.y = yMove;
+        }
+        else if (isLightingTheWay)
+        {
+            Vector2 direction = ((Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position).normalized).normalized;
+            moveDirection = direction;
         }
     }
 
