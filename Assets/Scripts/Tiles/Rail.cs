@@ -12,6 +12,8 @@ public class Rail : AbstractTile
         tilePlacer.Groundmap.SetTile(new Vector3Int(Position.x, Position.y, 0), Resources.Load<Tile>("Tiles/cave_floor"));
         tilePlacer.Overlaymap.SetTile(new Vector3Int(Position.x, Position.y, 0), Resources.Load<Tile>("Tiles/rail"));
 
+        GenerateFloor();
+
         if (Random.Range(1, 5) == 1)
         {
             GenerateWalker();
@@ -26,7 +28,7 @@ public class Rail : AbstractTile
         }
         else
         {
-            tilePlacer.PlaceTile(new FloorPlacer(new Vector2Int(Position.x + 1, Position.y), tilePlacer), tilePlacer.WalkermapData);
+            tilePlacer.PlaceTile(new FloorPlacer(new Vector2Int(Position.x + 1, Position.y), tilePlacer, true), tilePlacer.WalkermapData);
         }
 
         if (Random.Range(1, 5) != 1) 
@@ -35,7 +37,7 @@ public class Rail : AbstractTile
         }
         else
         {
-            tilePlacer.PlaceTile(new FloorPlacer(new Vector2Int(Position.x - 1, Position.y), tilePlacer), tilePlacer.WalkermapData);
+            tilePlacer.PlaceTile(new FloorPlacer(new Vector2Int(Position.x - 1, Position.y), tilePlacer, true), tilePlacer.WalkermapData);
         }
     }
 

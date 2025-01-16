@@ -11,6 +11,8 @@ public class WalkerTile : AbstractTile
     private Vector2Int walkerPos;
 
     private int turnChance = 10;
+    private bool isActive = true;
+
     public WalkerTile(Vector2Int position, TilePlacer tilePlacer, Vector2Int direction) : base(position, tilePlacer) 
     {
         this.direction = direction;
@@ -18,13 +20,7 @@ public class WalkerTile : AbstractTile
     public override void OnGenerate()
     {
         walkerPos = Position;
-
-        RenderTile();
         lifeTime = Random.Range(10, 20);
-    }
-
-    private void RenderTile()
-    {
         tilePlacer.Debugmap.SetTile(new Vector3Int(walkerPos.x, walkerPos.y, 0), Resources.Load<Tile>("Tiles/debug_walker"));
     }
 
@@ -40,20 +36,24 @@ public class WalkerTile : AbstractTile
 
     public void Step() 
     {
-        lifeTime--;
+        if (isActive)
+        {
+            lifeTime--;
 
-        if (!tilePlacer.GroundmapData.ContainsKey(walkerPos)) tilePlacer.PlaceTile(new CaveFloor(walkerPos, tilePlacer), tilePlacer.GroundmapData);
-        walkerPos += direction;
+            if (!tilePlacer.GroundmapData.ContainsKey(walkerPos)) tilePlacer.PlaceTile(new FloorPlacer(walkerPos, tilePlacer, true), tilePlacer.WalkermapData);
+            walkerPos += direction;
+
+            if (Random.Range(0, turnChance) == 0)
+            {
+                Turn();
+            }
+            else
+            {
+                turnChance--;
+            }
+
+            if (lifeTime <= 0) isActive = false;
+        }
         
-        if (Random.Range(0, turnChance) == 0)
-        {
-            Turn();
-        }
-        else
-        {
-            turnChance--;
-        }
-
-        if (lifeTime <= 0) { tilePlacer.WalkermapData.Remove(Position); }
     }
 }
