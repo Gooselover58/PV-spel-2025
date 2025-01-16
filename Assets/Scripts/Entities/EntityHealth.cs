@@ -12,6 +12,8 @@ public class EntityHealth : MonoBehaviour
 
     SpriteRenderer sprite;
 
+    Color damageColor = Color.red;
+
     private void Awake()
     {
         health = baseHealth;
@@ -58,9 +60,11 @@ public class EntityHealth : MonoBehaviour
 
     private IEnumerator TakeDamageFlash()
     {
-        sprite.color = Color.red;
+        sprite.color = damageColor;
         yield return new WaitForSeconds(0.2f);
         sprite.color = Color.white;
     }
+
+    
 
 }
