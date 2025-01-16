@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -45,12 +46,19 @@ public class TilePlacer : MonoBehaviour
         Clear();
         var startPos = new Vector2Int(0, 0);
 
+        // Generate rail
         for (int i = 0; i < 40; i++)
         {
             var pos = new Vector2Int(startPos.x, startPos.y + i);
-            var tile = new Rail(pos, this);
-            PlaceTile(tile, GroundmapData);
+            ReplaceTile(new Rail(pos, this), GroundmapData);
         }
+    }
+
+    private void ReplaceTile(AbstractTile tile, Dictionary<Vector2Int, AbstractTile> dictionary)
+    {
+        dictionary.Remove(tile.Position);
+        dictionary.Add(tile.Position, tile);
+        tile.OnGenerate();
     }
 
     public void PlaceTile(AbstractTile tile, Dictionary<Vector2Int, AbstractTile> dictionary) 
@@ -62,15 +70,19 @@ public class TilePlacer : MonoBehaviour
         }
     }
 
+    
+
     public void Step() 
     {
-        if (WalkermapData.Count != 0)
-        {
-            var values = WalkermapData.Values;
+        var values = WalkermapData.Values;
 
-            foreach (WalkerTile tile in values)
+        // Makes any walkers take a step
+        foreach (AbstractTile tile in values)
+        {
+            var method = tile.GetType().GetMethod("Step");
+            if (method != null)
             {
-                tile.Step();
+                method.Invoke(tile, new object[0]);
             }
         }
     }
