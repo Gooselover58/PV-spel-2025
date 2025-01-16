@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -16,6 +17,7 @@ public class GenerationManager : MonoBehaviour
     private Tilemap groundMap;
     private Tilemap railMap;
     private Tilemap wallMap;
+    private GameObject railPickup;
     private GameObject endOfRoomOb;
     private GameObject playerOb;
     private GameObject cartOb;
@@ -52,6 +54,7 @@ public class GenerationManager : MonoBehaviour
         wallMap = worldTilemap.transform.GetChild(2).GetComponent<Tilemap>();
         tiles.Add("Rail", Resources.Load<Tile>("Sprites/Tiles/RailTiles_3"));
         tiles.Add("MountainG", Resources.Load<Tile>("Sprites/Tiles/TestGround"));
+        railPickup = Resources.Load<GameObject>("Prefabs/RailPickup");
         endOfRoomOb = Resources.Load<GameObject>("Prefabs/EndOfRoom");
         tileConstructs.Add("WallMiddle", new TileConstruct(Resources.Load<GameObject>("Prefabs/WallMiddle").GetComponent<Tilemap>()));
         tileConstructs.Add("WallEnd", new TileConstruct(Resources.Load<GameObject>("Prefabs/WallEnd").GetComponent<Tilemap>()));
@@ -69,7 +72,7 @@ public class GenerationManager : MonoBehaviour
         currentGroundTile = tiles["MountainG"];
         foreach (Transform exit in endOfRoomOb.transform)
         {
-            Vector3 exitPos = Vector3.zero;
+            Vector3 exitPos = exit.transform.position + new Vector3(-1, -1, 0);
             Transform newExit = Instantiate(exit, exitPos, Quaternion.identity);
             newExit.gameObject.SetActive(false);
             exits.Add(newExit);
@@ -81,7 +84,8 @@ public class GenerationManager : MonoBehaviour
         tileConstructs["EndOfRoom"].PlaceConstruct(endPos);
         foreach (Transform exit in exits)
         {
-            Vector3 exitPos = endPos + exit.transform.position + new Vector3(-1, -1, 0);
+            Vector3 exitPos = endPos + exit.transform.position;
+            exit.position = exitPos;
             exit.gameObject.SetActive(true);
         }
         for (int i = endPos.x - 4; i < endPos.x + 4; i++)
@@ -147,15 +151,27 @@ public class GenerationManager : MonoBehaviour
 
     private Vector3Int SetRailWay(int length)
     {
+        int lostRailChance = 0;
         minY = -4;
         railMap.SetTile(new Vector3Int(0, minY - 1, 0), tiles["Rail"]);
         maxY = length;
         Vector3Int railPos = new Vector3Int(0, minY, 0);
         for (int i = minY; i < length; i++)
         {
+            int isRailLost = Random.Range(lostRailChance, length);
             Vector3Int walkerDir = (Random.Range(0, 2) == 0) ? Vector3Int.right : Vector3Int.left;
-            new Walker(railPos, walkerDir, Random.Range(50, 80));
-            PlaceRail(railPos);
+            if (isRailLost < lostRailChance)
+            {
+                lostRailChance = -length;
+                new RailPartWalker(railPos, walkerDir, Random.Range(150, 180));
+
+            }
+            else
+            {
+                new Walker(railPos, walkerDir, Random.Range(50, 80));
+                PlaceRail(railPos);
+                lostRailChance++;
+            }
             railPos += Vector3Int.up;
         }
         SetCartEnd(railPos + Vector3Int.down);
@@ -226,6 +242,11 @@ public class GenerationManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void PlaceRailPickup(Vector3Int railPos)
+    {
+        Instantiate(railPickup, railPos, Quaternion.identity);
     }
 
     private void PlaceRail(Vector3Int pos)
@@ -299,6 +320,7 @@ public class Walker
 {
     protected Vector3Int start;
     protected Vector3Int dir;
+    protected Vector3Int pos;
     protected int length;
     protected int turnChance;
 
@@ -310,9 +332,9 @@ public class Walker
         Walk();
     }
 
-    protected void Walk()
+    protected virtual void Walk()
     {
-        Vector3Int pos = start;
+        pos = start;
         turnChance = 5;
         for (int i = 0; i < length; i++)
         {
@@ -373,5 +395,24 @@ public class RailPartWalker : Walker
     public RailPartWalker(Vector3Int _start, Vector3Int _dir, int _length) : base(_start, _dir, _length)
     {
 
+    }
+
+    protected override void Walk()
+    {
+        base.Walk();
+        PlaceRailItem();
+    }
+
+    private void PlaceRailItem()
+    {
+        for (int i = pos.x - 2; i < pos.x + 3; i++)
+        {
+            for (int j = pos.y - 2; j < pos.y + 3; j++)
+            {
+                Vector3Int groundPos = new Vector3Int(i, j, 0);
+                PlaceGround(groundPos);
+            }
+        }
+        GenerationManager.Instance.PlaceRailPickup(pos);
     }
 }
