@@ -16,6 +16,7 @@ public class TestPlayer : MonoBehaviour
     Vector2 moveDirection;
 
     AudioSource footstepSound;
+    
 
     private void Awake()
     {
@@ -92,5 +93,6 @@ public class TestPlayer : MonoBehaviour
         footstepSound.pitch = Random.Range(0.8f, 1.2f);
         footstepSound.Play();
     }
+        
 
 }
