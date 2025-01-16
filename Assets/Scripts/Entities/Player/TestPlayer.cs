@@ -91,6 +91,17 @@ public class TestPlayer : MonoBehaviour
         }
     }
 
+    public void RemoveItem()
+    {
+        iHoldable holdable = heldItem.GetComponent<iHoldable>();
+        if (holdable != null)
+        {
+            ChangeWeight(-holdable.weight);
+            Destroy(heldItem.gameObject);
+            heldItem = null;
+        }
+    }
+
     private bool HasItem()
     {
         bool hasItem = (heldItem == null) ? false : true;

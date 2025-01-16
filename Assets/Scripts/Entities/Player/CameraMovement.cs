@@ -52,8 +52,11 @@ public class CameraMovement : MonoBehaviour
     /// </summary>
     void PlayerFollow()
     {
-        targetPosition = playerObj.transform.position + (Camera.main.ScreenToWorldPoint(Input.mousePosition) - playerObj.transform.position).normalized * 
+        if (playerObj != null)
+        {
+            targetPosition = playerObj.transform.position + (Camera.main.ScreenToWorldPoint(Input.mousePosition) - playerObj.transform.position).normalized *
             Mathf.Clamp((Camera.main.ScreenToWorldPoint(Input.mousePosition) - playerObj.transform.position).magnitude / 4, 0, maxMouseFollowOffset);
+        }
     }
 
     /// <summary>

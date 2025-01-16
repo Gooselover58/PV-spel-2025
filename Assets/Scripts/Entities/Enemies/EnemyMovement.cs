@@ -36,8 +36,6 @@ public class EnemyMovement : MonoBehaviour
 
         MoveAtPlayer();
 
-        
-
         IsPlayerInMeleeRange();
     }
 
