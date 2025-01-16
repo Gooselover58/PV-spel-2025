@@ -10,6 +10,8 @@ public class AttackController : MonoBehaviour
     [SerializeField] float hitRadius;
     [SerializeField] int attackDamage;
 
+    AudioSource swooshSound;
+
     /// <summary>
     /// A normalised vector in the direction cursor is from player
     /// </summary>
@@ -28,6 +30,7 @@ public class AttackController : MonoBehaviour
     void Start()
     {
         playerAnimations = GetComponent<Animator>();
+        swooshSound = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -48,6 +51,7 @@ public class AttackController : MonoBehaviour
     /// <returns></returns>
     public IEnumerator PickaxeAttack()
     {
+        swooshSound.Play();
         Vector2 direction = mouseDirection;
         playerAnimations.SetFloat("MouseDirectionX", direction.x);
         playerAnimations.SetFloat("MouseDirectionY", direction.y);
