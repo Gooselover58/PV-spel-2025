@@ -64,11 +64,14 @@ public class TilePlacer : MonoBehaviour
 
     public void Step() 
     {
-        var values = WalkermapData.Values;
-
-        foreach (WalkerTile tile in values)
+        if (WalkermapData.Count != 0)
         {
-            tile.Step();
+            var values = WalkermapData.Values;
+
+            foreach (WalkerTile tile in values)
+            {
+                tile.Step();
+            }
         }
     }
 }

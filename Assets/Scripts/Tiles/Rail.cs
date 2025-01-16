@@ -12,13 +12,6 @@ public class Rail : AbstractTile
         tilePlacer.Groundmap.SetTile(new Vector3Int(Position.x, Position.y, 0), Resources.Load<Tile>("Tiles/cave_floor"));
         tilePlacer.Overlaymap.SetTile(new Vector3Int(Position.x, Position.y, 0), Resources.Load<Tile>("Tiles/rail"));
 
-        
-        
-
-        if (Random.Range(1, 5) != 1) { tilePlacer.PlaceTile(new CaveFloor(new Vector2Int(Position.x + 1, Position.y), tilePlacer), tilePlacer.GroundmapData); }
-
-        if (Random.Range(1, 5) != 1) { tilePlacer.PlaceTile(new CaveFloor(new Vector2Int(Position.x - 1, Position.y), tilePlacer), tilePlacer.GroundmapData); }
-
         if (Random.Range(1, 5) == 1)
         {
             GenerateWalker();
@@ -27,7 +20,23 @@ public class Rail : AbstractTile
 
     private void GenerateFloor() 
     {
-    
+        if (Random.Range(1, 5) != 1)
+        {
+            tilePlacer.PlaceTile(new CaveFloor(new Vector2Int(Position.x + 1, Position.y), tilePlacer), tilePlacer.GroundmapData);
+        }
+        else
+        {
+            tilePlacer.PlaceTile(new FloorPlacer(new Vector2Int(Position.x + 1, Position.y), tilePlacer), tilePlacer.WalkermapData);
+        }
+
+        if (Random.Range(1, 5) != 1) 
+        { 
+            tilePlacer.PlaceTile(new CaveFloor(new Vector2Int(Position.x - 1, Position.y), tilePlacer), tilePlacer.GroundmapData); 
+        }
+        else
+        {
+            tilePlacer.PlaceTile(new FloorPlacer(new Vector2Int(Position.x - 1, Position.y), tilePlacer), tilePlacer.WalkermapData);
+        }
     }
 
     private void GenerateWalker()
