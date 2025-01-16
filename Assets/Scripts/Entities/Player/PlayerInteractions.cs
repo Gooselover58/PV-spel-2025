@@ -23,6 +23,7 @@ public class PlayerInteractions : MonoBehaviour
     {
         Collider2D[] cols = Physics2D.OverlapCircleAll(transform.position, interactionRange);
         float lowestDist = interactionRange;
+        curInteraction = null;
         foreach (Collider2D col in cols)
         {
             if (col.GetComponent<IInteractable>() == null)

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -34,7 +35,11 @@ public class CartScript : MonoBehaviour, IInteractable
 
     public void Interact()
     {
+        /*Type heldType = GenerationManager.player.GetComponent<TestPlayer>().heldItem.GetType();
+        switch (heldType)
+        {
 
+        }*/
     }
 
     private void FinishCart()
