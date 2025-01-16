@@ -9,11 +9,12 @@ public class TestPlayer : MonoBehaviour
     private Animator anim;
     [SerializeField] float playerBaseSpeed;
     private float playerFinalSpeed;
-    private float weight;
+    public float weight;
     private Vector2 movement;
-    private GameObject heldItem;
+    public GameObject heldItem;
 
     Vector2 moveDirection;
+    bool isLightingTheWay;
 
     AudioSource footstepSound;
     
@@ -25,6 +26,18 @@ public class TestPlayer : MonoBehaviour
         weight = 0;
         ChangeWeight(10f);
         footstepSound = GetComponent<AudioSource>();
+    }
+
+    private void Update()
+    {
+        if (Input.GetMouseButton(1))
+        {
+            isLightingTheWay = true;
+        }
+        else
+        {
+            isLightingTheWay = false;
+        }
     }
 
     private void FixedUpdate()
@@ -48,10 +61,15 @@ public class TestPlayer : MonoBehaviour
 
     private void SetMoveDirection(float xMove, float yMove)
     {
-        if (movement.magnitude > 0)
+        if (movement.magnitude > 0 && !isLightingTheWay)
         {
             moveDirection.x = xMove;
             moveDirection.y = yMove;
+        }
+        else if (isLightingTheWay)
+        {
+            Vector2 direction = ((Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position).normalized).normalized;
+            moveDirection = direction;
         }
     }
 
@@ -63,6 +81,10 @@ public class TestPlayer : MonoBehaviour
 
     public void PickUpItem(GameObject ob)
     {
+        if (HasItem())
+        {
+            return;
+        }
         iHoldable holdable = ob.GetComponent<iHoldable>();
         if (holdable != null)
         {
@@ -74,17 +96,35 @@ public class TestPlayer : MonoBehaviour
 
     public void DropItem()
     {
-        if (heldItem != null)
+        if (!HasItem())
         {
-            iHoldable holdable = heldItem.GetComponent<iHoldable>();
-            if (holdable != null)
-            {
-                ChangeWeight(-holdable.weight);
-                heldItem.transform.position = transform.position;
-                heldItem.GetComponent<SpriteRenderer>().enabled = true;
-                heldItem = null;
-            }
+            return;
         }
+        iHoldable holdable = heldItem.GetComponent<iHoldable>();
+        if (holdable != null)
+        {
+            ChangeWeight(-holdable.weight);
+            heldItem.transform.position = transform.position;
+            heldItem.GetComponent<SpriteRenderer>().enabled = true;
+            heldItem = null;
+        }
+    }
+
+    public void RemoveItem()
+    {
+        iHoldable holdable = heldItem.GetComponent<iHoldable>();
+        if (holdable != null)
+        {
+            ChangeWeight(-holdable.weight);
+            Destroy(heldItem.gameObject);
+            heldItem = null;
+        }
+    }
+
+    private bool HasItem()
+    {
+        bool hasItem = (heldItem == null) ? false : true;
+        return hasItem;
     }
 
     public void PlayFootStepSound()

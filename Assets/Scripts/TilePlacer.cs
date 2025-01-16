@@ -7,7 +7,6 @@ using UnityEngine.Tilemaps;
 public class TilePlacer : MonoBehaviour
 {
     public Dictionary<Vector2Int, AbstractTile> GroundmapData = new Dictionary<Vector2Int, AbstractTile>();
-    public Dictionary<Vector2Int, AbstractTile> OverlaymapData = new Dictionary<Vector2Int, AbstractTile>();
 
     public Dictionary<Vector2Int, AbstractTile> WalkermapData = new Dictionary<Vector2Int, AbstractTile>();
 
@@ -36,7 +35,6 @@ public class TilePlacer : MonoBehaviour
         Groundmap.ClearAllTiles();
         GroundmapData.Clear();
         Overlaymap.ClearAllTiles();
-        OverlaymapData.Clear();
         
         Debugmap.ClearAllTiles();
         WalkermapData.Clear();
@@ -47,7 +45,7 @@ public class TilePlacer : MonoBehaviour
         Clear();
         var startPos = new Vector2Int(0, 0);
 
-        for (int i = 0; i < 20; i++)
+        for (int i = 0; i < 40; i++)
         {
             var pos = new Vector2Int(startPos.x, startPos.y + i);
             var tile = new Rail(pos, this);
@@ -57,17 +55,23 @@ public class TilePlacer : MonoBehaviour
 
     public void PlaceTile(AbstractTile tile, Dictionary<Vector2Int, AbstractTile> dictionary) 
     {
-        dictionary.Add(tile.Position, tile);
-        tile.OnGenerate();
+        if (dictionary.TryAdd(tile.Position, tile)) 
+        {
+            //dictionary.Add(tile.Position, tile);
+            tile.OnGenerate();
+        }
     }
 
     public void Step() 
     {
-        var values = WalkermapData.Values;
-
-        foreach (WalkerTile tile in values)
+        if (WalkermapData.Count != 0)
         {
-            tile.Step();
+            var values = WalkermapData.Values;
+
+            foreach (WalkerTile tile in values)
+            {
+                tile.Step();
+            }
         }
     }
 }

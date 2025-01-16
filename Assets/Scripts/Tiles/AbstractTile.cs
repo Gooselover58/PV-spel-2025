@@ -8,12 +8,12 @@ using UnityEngine.Tilemaps;
 public abstract class AbstractTile
 {
     public Vector2Int Position;
-    protected TilePlacer TilePlacer;
+    protected TilePlacer tilePlacer;
 
     public AbstractTile(Vector2Int position, TilePlacer tilePlacer)
     {
         Position = position;
-        TilePlacer = tilePlacer;
+        this.tilePlacer = tilePlacer;
     }
 
     //public abstract string Tile();

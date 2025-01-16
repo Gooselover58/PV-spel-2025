@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,7 @@ public class CartScript : MonoBehaviour, IInteractable
 {
     private Rigidbody2D rb;
     private float cartWeight;
+    private int cartGold;
     private Vector2 startPos;
     private Vector2 endPos;
     private float time;
@@ -34,7 +36,14 @@ public class CartScript : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-
+        Type heldType = GenerationManager.player.GetComponent<TestPlayer>().heldItem.GetType();
+        if (heldType == typeof(GameObject))
+        {
+            iHoldable holdable = GenerationManager.player.GetComponent<TestPlayer>().heldItem.GetComponent<iHoldable>();
+            ChangeWeight(holdable.weight);
+            GenerationManager.player.GetComponent<TestPlayer>().RemoveItem();
+            cartGold += 1;
+        }
     }
 
     private void FinishCart()

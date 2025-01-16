@@ -150,7 +150,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 4e05ccf66bd465045838468a498e3ddb, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -174,9 +174,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerBaseSpeed: 10
-  footstepEvent:
-    m_PersistentCalls:
-      m_Calls: []
+  weight: 0
+  heldItem: {fileID: 0}
 --- !u!95 &3945155906830710805
 Animator:
   serializedVersion: 5

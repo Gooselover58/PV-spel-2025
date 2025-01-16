@@ -6,7 +6,7 @@ public class HoldableObject : MonoBehaviour, iHoldable, IInteractable
 {
     public float weight { get; set; }
 
-    private void Awake()
+    public virtual void Awake()
     {
         weight = 5f;
     }
