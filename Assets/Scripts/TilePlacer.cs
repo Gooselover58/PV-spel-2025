@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using static UnityEditor.PlayerSettings;
 
 public class TilePlacer : MonoBehaviour
 {
@@ -48,11 +49,14 @@ public class TilePlacer : MonoBehaviour
         var startPos = new Vector2Int(0, 0);
 
         // Generate rail
-        for (int i = 0; i < 40; i++)
+        int length = 40;
+        for (int i = 0; i < length; i++)
         {
             var pos = new Vector2Int(startPos.x, startPos.y + i);
             ReplaceTile(new Rail(pos, this), GroundmapData);
         }
+
+        ReplaceTile(new Rail(new Vector2Int(startPos.x, startPos.y + length + 1), this), GroundmapData);
     }
 
     public void ReplaceTile(AbstractTile tile, Dictionary<Vector2Int, AbstractTile> dictionary)
