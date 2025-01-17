@@ -22,13 +22,13 @@ public class CameraMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        FindPlayer();
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        FindPlayer();
         if (Input.GetKeyDown(KeyCode.L))
         {
             isFollowingPlayer = !isFollowingPlayer;
@@ -85,5 +85,12 @@ public class CameraMovement : MonoBehaviour
         Gizmos.DrawCube(targetPosition, new Vector2(0.5f, 0.5f));
     }
 
+    void FindPlayer()
+    {
+        if (playerObj == null)
+        {
+            playerObj = GameObject.FindGameObjectWithTag("Player");
+        }
+    }
 
 }
