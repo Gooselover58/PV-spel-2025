@@ -36,7 +36,7 @@ public class EnemyMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         enemyAnimator = GetComponent<Animator>();
-
+        
         FindPlayer();
     }
 
