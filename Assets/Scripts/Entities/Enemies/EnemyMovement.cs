@@ -21,6 +21,8 @@ public class EnemyMovement : MonoBehaviour
 
     Coroutine movePatternCoroutine;
 
+    AudioSource audio;
+
     enum EnemyType
     {
         Eyeball,
@@ -36,7 +38,7 @@ public class EnemyMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         enemyAnimator = GetComponent<Animator>();
-        
+        audio = GetComponent<AudioSource>();
         FindPlayer();
     }
 
@@ -163,5 +165,10 @@ public class EnemyMovement : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackRange);
+    }
+
+    public void PlayAudio()
+    {
+        audio.Play();
     }
 }
