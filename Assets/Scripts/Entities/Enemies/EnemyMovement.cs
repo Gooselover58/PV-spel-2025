@@ -8,7 +8,7 @@ public class EnemyMovement : MonoBehaviour
     Rigidbody2D rb;
     [SerializeField] float moveSpeed;
 
-    GameObject playerObject = null;
+    public GameObject playerObject = null;
     public float playerFindRadius;
     [SerializeField] LayerMask playerLayer;
 
@@ -18,6 +18,8 @@ public class EnemyMovement : MonoBehaviour
 
     bool isMoving;
     Animator enemyAnimator;
+
+    Coroutine movePatternCoroutine;
 
     enum EnemyType
     {
@@ -42,23 +44,27 @@ public class EnemyMovement : MonoBehaviour
     void Update()
     {
         FindPlayer();
-
-        switch (enemyType)
+        if (playerObject != null)
         {
+            switch (enemyType)
+            {
                 case EnemyType.Eyeball:
-                {
-                    MoveAtPlayer();
-                    IsPlayerInMeleeRange();
-                    break;
-                }
+                    {
+                        MoveAtPlayer();
+                        IsPlayerInMeleeRange();
+                        break;
+                    }
                 case EnemyType.Overseer:
-                {
-
-                    IsPlayerInMeleeRange();
-                    break;
-                }
+                    {
+                        if (movePatternCoroutine == null)
+                        {
+                            movePatternCoroutine = StartCoroutine(OverseerStep());
+                        }
+                        IsPlayerInMeleeRange();
+                        break;
+                    }
+            }
         }
-        
     }
 
     /// <summary>
@@ -79,6 +85,20 @@ public class EnemyMovement : MonoBehaviour
         {
             enemyAnimator.SetBool("IsMoving", false);
         }
+    }
+
+    private IEnumerator OverseerStep()
+    {
+        Vector2 stepDirection = (playerObject.transform.position - transform.position).normalized;
+        WalkAnimation(stepDirection);
+        yield return new WaitForSeconds(1.0f);
+        enemyAnimator.SetBool("IsMoving", true);
+        rb.velocity = stepDirection * moveSpeed;
+        yield return new WaitForSeconds(0.67f);
+        rb.velocity = Vector2.zero;
+        enemyAnimator.SetBool("IsMoving", false);
+        yield return new WaitForSeconds(1.5f);
+        movePatternCoroutine = null;
     }
 
     void WalkAnimation(Vector2 moveDirection)
