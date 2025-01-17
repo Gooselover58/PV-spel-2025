@@ -80,9 +80,9 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0.16666667
-    functionName: 
+    functionName: PlayAudio
     data: 
-    objectReferenceParameter: {fileID: 0}
+    objectReferenceParameter: {fileID: 9158469577348310856, guid: e4a7e903411f22d43aeba5dc1b37c45b, type: 3}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
