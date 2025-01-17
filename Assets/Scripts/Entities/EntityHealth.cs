@@ -15,7 +15,7 @@ public class EntityHealth : MonoBehaviour
 
     Color damageColor = Color.red;
 
-    public TMP_Text deathText;
+    public SpriteRenderer deathText;
 
     private void Awake()
     {
