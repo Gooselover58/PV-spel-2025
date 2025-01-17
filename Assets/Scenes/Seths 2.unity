@@ -12515,6 +12515,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6655642478497757350, guid: 1d954fc552c4ceb43865fbde2f0ebe07, type: 3}
+      propertyPath: m_Offset.y
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 8557892900727909366, guid: 1d954fc552c4ceb43865fbde2f0ebe07, type: 3}
       propertyPath: rangeScale
       value: 2
