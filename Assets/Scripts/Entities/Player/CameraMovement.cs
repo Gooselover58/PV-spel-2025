@@ -54,10 +54,10 @@ public class CameraMovement : MonoBehaviour
     {
         if (playerObj != null)
         {
-            var strength = 2;
-            if (Input.GetMouseButton(1)) strength += 5;
+            var strength = 4;
+            if (Input.GetMouseButton(1)) strength = 1;
             targetPosition = playerObj.transform.position + (Camera.main.ScreenToWorldPoint(Input.mousePosition) - playerObj.transform.position).normalized *
-            Mathf.Clamp((Camera.main.ScreenToWorldPoint(Input.mousePosition) - playerObj.transform.position).magnitude / 4, 0, maxMouseFollowOffset);
+            Mathf.Clamp((Camera.main.ScreenToWorldPoint(Input.mousePosition) - playerObj.transform.position).magnitude / strength, 0, maxMouseFollowOffset);
         }
     }
 
