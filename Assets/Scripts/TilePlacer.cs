@@ -30,7 +30,7 @@ public class TilePlacer : MonoBehaviour
 
     private void Start()
     {
-        Generate();
+        //Generate();
     }
 
     public void Clear()
@@ -49,7 +49,7 @@ public class TilePlacer : MonoBehaviour
         var startPos = new Vector2Int(0, 0);
 
         // Generate rail
-        int length = 40;
+        int length = 600;
         for (int i = 0; i < length; i++)
         {
             var pos = new Vector2Int(startPos.x, startPos.y + i);
