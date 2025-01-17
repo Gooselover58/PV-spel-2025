@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class EntityHealth : MonoBehaviour
@@ -13,6 +14,8 @@ public class EntityHealth : MonoBehaviour
     SpriteRenderer sprite;
 
     Color damageColor = Color.red;
+
+    public TMP_Text deathText;
 
     private void Awake()
     {
@@ -54,6 +57,10 @@ public class EntityHealth : MonoBehaviour
         if (health <= 0)
         {
             print(gameObject.name + " died!!! This is so sad. ;(");
+            if (gameObject.tag == "Player")
+            {
+                deathText.enabled = true;
+            }
             Destroy(gameObject, 0.2f);
         }
     }
