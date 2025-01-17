@@ -13,6 +13,8 @@ public class Headlamp : MonoBehaviour
 
     float lerpTime = 0;
 
+    public float rangeScale;
+
 
     // Start is called before the first frame update
     void Start()
@@ -54,14 +56,14 @@ public class Headlamp : MonoBehaviour
 
     private void ChangeConeScale()
     {
-        float distance = (circleSprite.transform.position - (transform.position + new Vector3(0, 0.6f, 0))).magnitude;
-        lightCone.transform.localScale = new Vector2(3.8f, distance);
+        float distance = (circleSprite.transform.position - (transform.position + new Vector3(0, 0.3f, 0))).magnitude;
+        lightCone.transform.localScale = new Vector2(3.8f, distance * rangeScale);
     }
 
 
     private void ChangeConeRotation()
     {
-        Vector2 direction = lightCircle.transform.position - (transform.position + new Vector3(0, 0.6f, 0));
+        Vector2 direction = lightCircle.transform.position - (transform.position + new Vector3(0, 0.3f, 0));
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         lightCone.transform.rotation = Quaternion.AngleAxis(angle -90, Vector3.forward);
     }
