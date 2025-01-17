@@ -36,9 +36,22 @@ public class EnemyMovement : MonoBehaviour
     {
         FindPlayer();
 
-        MoveAtPlayer();
+        switch (enemyType)
+        {
+                case EnemyType.Eyeball:
+                {
+                    MoveAtPlayer();
+                    IsPlayerInMeleeRange();
+                    break;
+                }
+                case EnemyType.Overseer:
+                {
 
-        IsPlayerInMeleeRange();
+                    IsPlayerInMeleeRange();
+                    break;
+                }
+        }
+        
     }
 
     /// <summary>
@@ -74,11 +87,10 @@ public class EnemyMovement : MonoBehaviour
     {
         if (playerObject != null)
         {
-            float playerDistance = (playerObject.transform.position - transform.position).magnitude;
-
-            if (playerDistance < attackRange && attackCoroutine == null)
+            bool inMeleeRange = Physics2D.OverlapCircle(transform.position, attackRange, playerLayer);
+            if (inMeleeRange && attackCoroutine == null)
             {
-                attackCoroutine = StartCoroutine(AttackCoroutine());
+                attackCoroutine =  StartCoroutine(AttackCoroutine());
             }
         }
     }
@@ -118,5 +130,11 @@ public class EnemyMovement : MonoBehaviour
                 playerObject = playerCollider.gameObject;
             }
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, attackRange);
     }
 }
