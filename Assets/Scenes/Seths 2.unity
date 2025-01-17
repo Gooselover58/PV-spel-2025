@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 755333500}
   - component: {fileID: 755333499}
   - component: {fileID: 755333502}
+  - component: {fileID: 755333503}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -260,6 +261,22 @@ MonoBehaviour:
     mipBias: 0
     varianceClampScale: 0.9
     contrastAdaptiveSharpening: 0
+--- !u!114 &755333503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 755333498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1baaa2ea7c4e51e4295ec928f9764257, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerObj: {fileID: 0}
+  maxMouseFollowOffset: 5
+  isFollowingPlayer: 1
+  velocity: {x: 0, y: 0}
 --- !u!1 &1036479128
 GameObject:
   m_ObjectHideFlags: 0
@@ -12456,11 +12473,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4604394766623904819, guid: 1d954fc552c4ceb43865fbde2f0ebe07, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.584037
+      value: -1.4
       objectReference: {fileID: 0}
     - target: {fileID: 4604394766623904819, guid: 1d954fc552c4ceb43865fbde2f0ebe07, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.2119906
+      value: 4.6
       objectReference: {fileID: 0}
     - target: {fileID: 4604394766623904819, guid: 1d954fc552c4ceb43865fbde2f0ebe07, type: 3}
       propertyPath: m_LocalPosition.z
@@ -12493,6 +12510,14 @@ PrefabInstance:
     - target: {fileID: 4604394766623904819, guid: 1d954fc552c4ceb43865fbde2f0ebe07, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4604394766623904819, guid: 1d954fc552c4ceb43865fbde2f0ebe07, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8557892900727909366, guid: 1d954fc552c4ceb43865fbde2f0ebe07, type: 3}
+      propertyPath: rangeScale
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
