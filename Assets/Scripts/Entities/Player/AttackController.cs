@@ -30,7 +30,6 @@ public class AttackController : MonoBehaviour
     void Start()
     {
         playerAnimations = GetComponent<Animator>();
-        swooshSound = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
