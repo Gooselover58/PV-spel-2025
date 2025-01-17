@@ -60,8 +60,13 @@ public class EntityHealth : MonoBehaviour
             if (gameObject.tag == "Player")
             {
                 deathText.enabled = true;
+                gameObject.SetActive(false);
+                Destroy(gameObject, 5f);
             }
-            Destroy(gameObject, 0.2f);
+            if (gameObject.tag != "Player")
+            {
+                Destroy(gameObject, 0.1f);
+            }
         }
     }
 

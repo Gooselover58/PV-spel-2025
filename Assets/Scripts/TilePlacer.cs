@@ -56,7 +56,12 @@ public class TilePlacer : MonoBehaviour
             ReplaceTile(new Rail(pos, this), GroundmapData);
         }
 
-        ReplaceTile(new Rail(new Vector2Int(startPos.x, startPos.y + length + 1), this), GroundmapData);
+        for (int i = 0; i < 50; i++)
+        {
+            Step();
+        }
+
+        ReplaceTile(new EndTile(new Vector2Int(startPos.x, startPos.y + length), this), GroundmapData);
     }
 
     public void ReplaceTile(AbstractTile tile, Dictionary<Vector2Int, AbstractTile> dictionary)
