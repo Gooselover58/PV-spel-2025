@@ -57,7 +57,11 @@ public class WalkerTile : AbstractTile
 
                 if (Random.Range(0, 5) == 0) { bridge = Random.Range(5, 7); }
 
-                if (lifeTime <= 0) isActive = false;
+                if (lifeTime <= 0)
+                {
+                    isActive = false;
+                    
+                }
             }
             else
             {
