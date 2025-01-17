@@ -123,6 +123,73 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1001 &525600938
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 755333501}
+    m_Modifications:
+    - target: {fileID: 4162538917317497209, guid: 36a9507f61d1c5d4482f376f32de8089, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4162538917317497209, guid: 36a9507f61d1c5d4482f376f32de8089, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4162538917317497209, guid: 36a9507f61d1c5d4482f376f32de8089, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4162538917317497209, guid: 36a9507f61d1c5d4482f376f32de8089, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4162538917317497209, guid: 36a9507f61d1c5d4482f376f32de8089, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4162538917317497209, guid: 36a9507f61d1c5d4482f376f32de8089, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4162538917317497209, guid: 36a9507f61d1c5d4482f376f32de8089, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4162538917317497209, guid: 36a9507f61d1c5d4482f376f32de8089, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4162538917317497209, guid: 36a9507f61d1c5d4482f376f32de8089, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4162538917317497209, guid: 36a9507f61d1c5d4482f376f32de8089, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6696065385643624022, guid: 36a9507f61d1c5d4482f376f32de8089, type: 3}
+      propertyPath: m_Name
+      value: DeathText
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 36a9507f61d1c5d4482f376f32de8089, type: 3}
+--- !u!212 &525600939 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 457838753995179791, guid: 36a9507f61d1c5d4482f376f32de8089, type: 3}
+  m_PrefabInstance: {fileID: 525600938}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &525600940 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4162538917317497209, guid: 36a9507f61d1c5d4482f376f32de8089, type: 3}
+  m_PrefabInstance: {fileID: 525600938}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &755333498
 GameObject:
   m_ObjectHideFlags: 0
@@ -179,10 +246,10 @@ Camera:
   m_LensShift: {x: 0, y: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0
+    x: 0.00052083336
     y: 0
-    width: 1
-    height: 1
+    width: 0.7354167
+    height: 0.44074073
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
@@ -215,7 +282,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 525600940}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &755333502
@@ -12564,6 +12632,10 @@ PrefabInstance:
       propertyPath: m_Offset.y
       value: -1
       objectReference: {fileID: 0}
+    - target: {fileID: 7496334138740176294, guid: 1d954fc552c4ceb43865fbde2f0ebe07, type: 3}
+      propertyPath: deathText
+      value: 
+      objectReference: {fileID: 525600939}
     - target: {fileID: 8557892900727909366, guid: 1d954fc552c4ceb43865fbde2f0ebe07, type: 3}
       propertyPath: rangeScale
       value: 2
