@@ -124,6 +124,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseHealth: 15
+  deathText: {fileID: 0}
 --- !u!50 &707154913268253256
 Rigidbody2D:
   serializedVersion: 4
